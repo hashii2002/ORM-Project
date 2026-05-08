@@ -110,7 +110,10 @@
                                 <ComboBox prefHeight="35.0" prefWidth="187.0" promptText="All Status" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
                                 <ComboBox prefHeight="35.0" prefWidth="177.0" promptText="All Programs" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
                                 <Region HBox.hgrow="ALWAYS" />
-                                <Button prefHeight="40.0" prefWidth="160.0" style="-fx-background-color: #2D5F4E; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold; -fx-cursor: hand;" text="+ Add New Patient" />
+                                <Button prefHeight="40.0" prefWidth="160.0" style="-fx-background-color: #2D5F4E; -fx-text-fill: white; -fx-background-radius: 12; -fx-font-weight: bold; -fx-cursor: hand;" text="+ Add New Patient">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Button>
                             </children>
                         </HBox>
 
