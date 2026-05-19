@@ -1,12 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.serenitytherapycenterorm.controller.AdminDashboardController">
-   <children>
-      <Pane prefHeight="800.0" prefWidth="260.0" />
-      <Pane layoutX="260.0" prefHeight="800.0" prefWidth="1020.0" />
-   </children>
+    <children>
+
+        <Pane prefHeight="800.0" prefWidth="260.0" style="-fx-background-color: #2D5F4E;">
+            <children>
+                <ImageView fitHeight="116.0" fitWidth="166.0" layoutX="36.0" layoutY="14.0" pickOnBounds="true" smooth="false">
+                    <image>
+                        <Image url="@../image/logo.png" />
+                    </image>
+                </ImageView>
+                <Label layoutX="80.0" layoutY="109.0" prefHeight="30.0" prefWidth="81.0" text="Serenity" textAlignment="CENTER" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+                <Label layoutX="38.0" layoutY="139.0" prefHeight="23.0" prefWidth="166.0" text="Mental Health Therapy Center" textFill="#ffffffd0" />
+
+                <VBox layoutX="15.0" layoutY="219.0" prefWidth="230.0" spacing="12.0">
+                    <children>
+                        <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="230.0" style="-fx-alignment: LEFT; -fx-padding: 0 0 0 20; -fx-background-radius: 10; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-color: transparent; -fx-text-fill: #E1EDE7;" text="Dashboard" textAlignment="CENTER">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Button>
+
+                        <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="230.0" style="-fx-background-color: transparent; -fx-text-fill: #E1EDE7; -fx-alignment: LEFT; -fx-padding: 0 0 0 20; -fx-background-radius: 10; -fx-cursor: hand;" text="Manage Users">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Button>
+
+                        <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="230.0" style="-fx-background-color: transparent; -fx-text-fill: #E1EDE7; -fx-alignment: LEFT; -fx-padding: 0 0 0 20; -fx-background-radius: 10; -fx-cursor: hand;" text="Manage Therapists">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Button>
+
+                        <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="230.0" style="-fx-background-color: transparent; -fx-text-fill: #E1EDE7; -fx-alignment: LEFT; -fx-padding: 0 0 0 20; -fx-background-radius: 10; -fx-cursor: hand;" text="Therapy Programs">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Button>
+
+                        <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="230.0" style="-fx-background-color: transparent; -fx-text-fill: #E1EDE7; -fx-alignment: LEFT; -fx-padding: 0 0 0 20; -fx-background-radius: 10; -fx-cursor: hand;" text="Payments &amp; Invoices">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Button>
+
+                        <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="230.0" style="-fx-background-color: transparent; -fx-text-fill: #E1EDE7; -fx-alignment: LEFT; -fx-padding: 0 0 0 20; -fx-background-radius: 10; -fx-cursor: hand;" text="Reports &amp; Analytics">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Button>
+                    </children>
+                </VBox>
+
+                <Pane layoutX="-7.0" layoutY="711.0" prefHeight="89.0" prefWidth="268.0">
+                    <children>
+                        <Label layoutX="23.0" layoutY="23.0" style="-fx-background-color: #6B9DC2; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px; -fx-min-width: 36; -fx-min-height: 36; -fx-alignment: CENTER; -fx-background-radius: 18;" text="AD" textFill="#44c45a" />
+                        <VBox layoutX="69.0" layoutY="25.0" prefHeight="42.0" prefWidth="115.0" spacing="2">
+                            <children>
+                                <Label fx:id="lblAdminName" style="-fx-text-fill: #FFFFFF; -fx-font-size: 12px; -fx-font-weight: bold;" text="Admin User" />
+                                <Label style="-fx-text-fill: #6B9DC2; -fx-font-size: 10px;" text="Administrator" />
+                            </children>
+                        </VBox>
+                        <Button layoutX="157.0" layoutY="23.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="102.0" style="-fx-background-color: transparent; -fx-text-fill: #FF8A8A; -fx-cursor: hand; -fx-font-weight: bold;" text="Exit">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+                    </children>
+                </Pane>
+            </children>
+        </Pane>
+
+        <AnchorPane fx:id="ancContent" layoutX="260.0" prefHeight="800.0" prefWidth="1020.0" style="-fx-background-color: #e1ede7;" />
+
+    </children>
 </AnchorPane>

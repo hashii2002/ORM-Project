@@ -115,14 +115,14 @@
 
                         <TableView fx:id="tblUser" prefHeight="420.0" prefWidth="1040.0" style="-fx-background-radius: 10; -fx-border-radius: 10;">
                             <columns>
-                                <TableColumn fx:id="colId" prefWidth="70.39998704195023" text="ID" />
-                                <TableColumn fx:id="colUser" prefWidth="160.00001525878906" text="Full Name" />
-                                <TableColumn fx:id="colEmail" prefWidth="106.40003967285156" text="UserName" />
-                                <TableColumn fx:id="colRole" prefWidth="126.39996337890625" text="Role" />
-                                <TableColumn fx:id="colStatus" prefWidth="175.199951171875" text="Email" />
-                                <TableColumn fx:id="colLastLogin" prefWidth="163.20001220703125" text="Address" />
-                                <TableColumn fx:id="colActions" prefWidth="99.199951171875" text="Status" />
-                        <TableColumn prefWidth="136.7999389648437" text="Actions" />
+                                <TableColumn prefWidth="70.39998704195023" text="ID" />
+                                <TableColumn prefWidth="160.00001525878906" text="Full Name" />
+                                <TableColumn prefWidth="106.40003967285156" text="UserName" />
+                                <TableColumn prefWidth="126.39996337890625" text="Role" />
+                                <TableColumn prefWidth="175.199951171875" text="Email" />
+                                <TableColumn prefWidth="163.20001220703125" text="Address" />
+                                <TableColumn prefWidth="99.199951171875" text="Status" />
+                        <TableColumn prefWidth="121.59999999999991" text="Actions" />
                             </columns>
                         </TableView>
                     </children>

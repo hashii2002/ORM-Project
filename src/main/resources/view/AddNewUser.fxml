@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1020.0" style="-fx-background-color: #e1ede7;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox layoutX="10.0" layoutY="10.0">
+         <children>
+            <Label text="Add New Users" textFill="#2D5F4E">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="53.0" pickOnBounds="true" smooth="false">
+                     <image>
+                        <Image url="@../icon/usericon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <Label prefHeight="19.0" prefWidth="346.0" text="Dashboard &gt;  Manage Users &gt; Add New Users" textFill="#757575">
+               <font>
+                  <Font size="13.0" />
+               </font>
+               <padding>
+                  <Insets left="40.0" />
+               </padding>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="60.0" layoutY="130.0" prefHeight="70.0" prefWidth="292.0" style="-fx-background-radius: 20;">
+         <children>
+            <Label text="User ID :" textFill="#0000008d">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField prefHeight="36.0" prefWidth="292.0" promptText="Enter User ID" style="-fx-background-radius: 10;" />
+         </children>
+      </VBox>
+      <VBox layoutX="60.0" layoutY="215.0" prefHeight="70.0" prefWidth="878.0" style="-fx-background-radius: 20;">
+         <children>
+            <Label text="Full Name :" textFill="#0000008d">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField prefHeight="36.0" prefWidth="413.0" promptText="Enter Full Name" style="-fx-background-radius: 10;" />
+         </children>
+      </VBox>
+      <VBox layoutX="520.0" layoutY="130.0" prefHeight="70.0" prefWidth="314.0" style="-fx-background-radius: 20;">
+         <children>
+            <Label text="User Name :" textFill="#0000008d">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField prefHeight="36.0" prefWidth="413.0" promptText="Enter Full Name" style="-fx-background-radius: 10;" />
+         </children>
+      </VBox>
+      <VBox layoutX="60.0" layoutY="297.0" prefHeight="70.0" prefWidth="878.0" style="-fx-background-radius: 20;">
+         <children>
+            <Label text="Email :" textFill="#0000008d">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField prefHeight="36.0" prefWidth="413.0" promptText="Enter Full Name" style="-fx-background-radius: 10;" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
