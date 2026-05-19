@@ -13,11 +13,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.serenitytherapycenterorm.controller.CreateAccountController">
+<AnchorPane prefHeight="800.0" prefWidth="642.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.serenitytherapycenterorm.controller.RegisterController">
     <children>
         <Pane prefHeight="800.0" prefWidth="642.0">
             <children>
-                <VBox alignment="TOP_CENTER" layoutX="47.0" layoutY="60.0" prefHeight="679.0" prefWidth="544.0" style="-fx-effect: dropshad; -fx-background-color: white; -fx-background-radius: 20; -fx-padding: 40;">
+                <VBox alignment="TOP_CENTER" layoutX="47.0" layoutY="60.0" prefHeight="679.0" prefWidth="544.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0); -fx-background-color: white; -fx-background-radius: 20; -fx-padding: 40;">
                     <children>
                         <Label alignment="CENTER" prefHeight="30.0" prefWidth="363.0" text="Create New Account" textAlignment="CENTER" textFill="#305e4e">
                             <font>
@@ -37,31 +37,15 @@
                                 <Insets top="15.0" />
                             </VBox.margin>
                             <children>
-                                <Label text="USER ID" textFill="#356951ba">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <TextField prefHeight="32.0" prefWidth="338.0" promptText="Enter your User ID" style="-fx-background-radius: 7;">
-                           <font>
-                              <Font size="13.0" />
-                           </font></TextField>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="63.0" prefWidth="338.0">
-                            <opaqueInsets>
-                                <Insets top="10.0" />
-                            </opaqueInsets>
-                            <children>
                                 <Label text="USERNAME" textFill="#356951ba">
                                     <font>
                                         <Font name="System Bold" size="14.0" />
                                     </font>
                                 </Label>
-                                <TextField prefHeight="32.0" prefWidth="338.0" promptText="Enter your UserName" style="-fx-background-radius: 7;">
-                           <font>
-                              <Font size="13.0" />
-                           </font></TextField>
+                                <TextField fx:id="txtUsername" prefHeight="32.0" prefWidth="338.0" promptText="Enter your UserName" style="-fx-background-radius: 7;">
+                                    <font>
+                                        <Font size="13.0" />
+                                    </font></TextField>
                             </children>
                         </VBox>
                         <VBox prefHeight="66.0" prefWidth="338.0">
@@ -74,10 +58,10 @@
                                         <Font name="System Bold" size="14.0" />
                                     </font>
                                 </Label>
-                                <TextField prefHeight="32.0" prefWidth="338.0" promptText="Enter your Full Name" style="-fx-background-radius: 7;">
-                           <font>
-                              <Font size="13.0" />
-                           </font></TextField>
+                                <TextField fx:id="txtFullName" prefHeight="32.0" prefWidth="338.0" promptText="Enter your Full Name" style="-fx-background-radius: 7;">
+                                    <font>
+                                        <Font size="13.0" />
+                                    </font></TextField>
                             </children>
                         </VBox>
                         <VBox prefHeight="65.0" prefWidth="338.0">
@@ -90,10 +74,26 @@
                                         <Font name="System Bold" size="14.0" />
                                     </font>
                                 </Label>
-                                <TextField prefHeight="32.0" prefWidth="338.0" promptText="Enter your Email" style="-fx-background-radius: 7;">
-                           <font>
-                              <Font size="13.0" />
-                           </font></TextField>
+                                <TextField fx:id="txtEmail" prefHeight="32.0" prefWidth="338.0" promptText="Enter your Email" style="-fx-background-radius: 7;">
+                                    <font>
+                                        <Font size="13.0" />
+                                    </font></TextField>
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="65.0" prefWidth="338.0">
+                            <opaqueInsets>
+                                <Insets top="10.0" />
+                            </opaqueInsets>
+                            <children>
+                                <Label text="ADDRESS" textFill="#356951ba">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="txtAddress" prefHeight="32.0" prefWidth="338.0" promptText="Enter your Address" style="-fx-background-radius: 7;">
+                                    <font>
+                                        <Font size="13.0" />
+                                    </font></TextField>
                             </children>
                         </VBox>
                         <VBox prefHeight="65.0" prefWidth="338.0">
@@ -106,7 +106,7 @@
                                         <Font name="System Bold" size="14.0" />
                                     </font>
                                 </Label>
-                                <ChoiceBox prefHeight="32.0" prefWidth="338.0" style="-fx-background-radius: 7;" />
+                                <ChoiceBox fx:id="cmbRole" prefHeight="32.0" prefWidth="338.0" style="-fx-background-radius: 7;" />
                             </children>
                         </VBox>
                         <HBox prefHeight="63.0" prefWidth="338.0">
@@ -120,7 +120,7 @@
                                                         <Font name="System Bold" size="14.0" />
                                                     </font>
                                                 </Label>
-                                                <Label text="(Min six characters)" textFill="#3569519a">
+                                                <Label text="(Min 6 chars)" textFill="#3569519a">
                                                     <font>
                                                         <Font name="System Bold" size="12.0" />
                                                     </font>
@@ -130,17 +130,17 @@
                                                 </Label>
                                             </children>
                                         </HBox>
-                                        <PasswordField prefHeight="32.0" prefWidth="238.0" promptText="* * * * * * * * * *" style="-fx-background-radius: 7;">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font></PasswordField>
+                                        <PasswordField fx:id="txtPassword" prefHeight="32.0" prefWidth="238.0" promptText="* * * * * * * * * *" style="-fx-background-radius: 7;">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font></PasswordField>
                                     </children>
                                 </VBox>
                                 <VBox prefHeight="50.0" prefWidth="227.0">
                                     <children>
                                         <HBox prefHeight="22.0" prefWidth="227.0">
                                             <children>
-                                                <Label text="PASSWORD" textFill="#356951ba">
+                                                <Label text="CONFIRM PASSWORD" textFill="#356951ba">
                                                     <font>
                                                         <Font name="System Bold" size="14.0" />
                                                     </font>
@@ -150,50 +150,44 @@
                                                 </Label>
                                             </children>
                                         </HBox>
-                                        <PasswordField prefHeight="32.0" prefWidth="216.0" promptText="* * * * * * * * * *" style="-fx-background-radius: 7;">
+                                        <PasswordField fx:id="txtConfirmPassword" prefHeight="32.0" prefWidth="216.0" promptText="* * * * * * * * * *" style="-fx-background-radius: 7;">
                                             <VBox.margin>
                                                 <Insets left="10.0" />
                                             </VBox.margin>
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
                                         </PasswordField>
                                     </children>
                                 </VBox>
                             </children>
                         </HBox>
-                  <VBox alignment="CENTER" prefHeight="115.0" prefWidth="464.0">
-                     <children>
-                              <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="167.0" style="-fx-background-radius: 12; -fx-background-color: #2D5F4E;" text="Create Account" textAlignment="CENTER" textFill="#ffffffa3">
-                                  <VBox.margin>
-                                      <Insets left="90.0" right="90.0" top="40.0" />
-                                  </VBox.margin>
-                                  <font>
-                                      <Font name="System Bold" size="16.0" />
-                                  </font>
-                                  <opaqueInsets>
-                                      <Insets />
-                                  </opaqueInsets>
-                              </Button>
-                              <HBox alignment="CENTER" prefHeight="45.0" prefWidth="464.0" spacing="4">
-                                  <children>
-                              <Label text="Already have an account?">
-                                 <font>
-                                    <Font size="13.0" />
-                                 </font>
-                              </Label>
-                              <Hyperlink prefHeight="24.0" prefWidth="48.0" text="Login" textFill="#221476">
-                                 <font>
-                                    <Font name="System Bold" size="13.0" />
-                                 </font>
-                              </Hyperlink>
-                                  </children>
-                                  <VBox.margin>
-                                      <Insets />
-                                  </VBox.margin>
-                              </HBox>
-                     </children>
-                  </VBox>
+                        <VBox alignment="CENTER" prefHeight="115.0" prefWidth="464.0">
+                            <children>
+                                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#btnCreateAccount" prefHeight="40.0" prefWidth="167.0" style="-fx-background-radius: 12; -fx-background-color: #2D5F4E; -fx-cursor: hand;" text="Create Account" textAlignment="CENTER" textFill="white">
+                                    <VBox.margin>
+                                        <Insets top="20.0" />
+                                    </VBox.margin>
+                                    <font>
+                                        <Font name="System Bold" size="16.0" />
+                                    </font>
+                                </Button>
+                                <HBox alignment="CENTER" prefHeight="45.0" prefWidth="464.0" spacing="4">
+                                    <children>
+                                        <Label text="Already have an account?">
+                                            <font>
+                                                <Font size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <Hyperlink onAction="#linkLoginOnAction" prefHeight="24.0" text="Login" textFill="#221476">
+                                            <font>
+                                                <Font name="System Bold" size="13.0" />
+                                            </font>
+                                        </Hyperlink>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
                     </children>
                 </VBox>
             </children>

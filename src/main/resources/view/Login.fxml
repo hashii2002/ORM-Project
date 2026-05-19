@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.serenitytherapycenterorm.controller.LoginController">
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.serenitytherapycenterorm.controller.LoginController">
     <children>
         <AnchorPane prefHeight="800.0" prefWidth="642.0" style="-fx-background-color: #2D5F4E;" HBox.hgrow="ALWAYS">
             <children>
@@ -68,7 +68,7 @@
             </children>
         </AnchorPane>
 
-        <AnchorPane prefHeight="800.0" prefWidth="642.0" HBox.hgrow="NEVER">
+        <AnchorPane fx:id="rootPane" prefHeight="800.0" prefWidth="642.0" HBox.hgrow="NEVER">
             <children>
                 <VBox alignment="CENTER" layoutX="72.0" layoutY="50.0" prefHeight="700.0" prefWidth="496.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 35; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
                     <children>
@@ -95,7 +95,7 @@
                                         <Font name="System Bold" size="16.0" />
                                     </font>
                                 </Label>
-                                <TextField prefHeight="38.0" prefWidth="426.0" promptText="Enter your username" style="-fx-background-radius: 10; -fx-border-color: #E0E0E0; -fx-border-radius: 10;">
+                                <TextField fx:id="txtUsername" prefHeight="38.0" prefWidth="426.0" promptText="Enter your username" style="-fx-background-radius: 10; -fx-border-color: #E0E0E0; -fx-border-radius: 10;">
                                     <font>
                                         <Font size="14.0" />
                                     </font>
@@ -112,7 +112,7 @@
                                 </Label>
                                 <StackPane alignment="CENTER_LEFT">
                                     <children>
-                                        <PasswordField prefHeight="40.0" prefWidth="426.0" promptText="Enter your password" style="-fx-background-radius: 10; -fx-border-color: #E0E0E0; -fx-border-radius: 10;">
+                                        <PasswordField fx:id="txtPassword" prefHeight="40.0" prefWidth="426.0" promptText="Enter your password" style="-fx-background-radius: 10; -fx-border-color: #E0E0E0; -fx-border-radius: 10;">
                                             <font>
                                                 <Font size="14.0" />
                                             </font>
@@ -144,7 +144,7 @@
                             </children>
                         </VBox>
 
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="230.0" style="-fx-background-radius: 12; -fx-background-color: #2D5F4E; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Login">
+                        <Button mnemonicParsing="false" onAction="#btnLoginOnAction" prefHeight="40.0" prefWidth="230.0" style="-fx-background-radius: 12; -fx-background-color: #2D5F4E; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Login">
                             <font>
                                 <Font size="18.0" />
                             </font>
@@ -160,7 +160,7 @@
                                         <Font size="14.0" />
                                     </font>
                                 </Label>
-                                <Hyperlink prefHeight="26.0" text="Create Account" textFill="#304079">
+                                <Hyperlink onAction="#btnCreateAccount" prefHeight="26.0" text="Create Account" textFill="#304079">
                                     <font>
                                         <Font size="14.0" />
                                     </font>

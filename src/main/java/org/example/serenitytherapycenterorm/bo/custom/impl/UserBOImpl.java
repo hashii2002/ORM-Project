@@ -71,11 +71,11 @@ public class UserBOImpl implements UserBO {
     public User authenticate(String username, String plainPassword) throws Exception {
         User user = userDAO.findByUsername(username);
         if (user == null || User.Status.INACTIVE.equals(user.getStatus())) {
-            throw new AuthenticationException("Invalid username or disabled account.");
+            throw new org.example.serenitytherapycenterorm.exception.AuthenticationException("Invalid username or disabled account");
         }
 
         if (!PasswordUtil.checkPassword(plainPassword, user.getPassword())) {
-            throw new AuthenticationException("Invalid password!");
+            throw new org.example.serenitytherapycenterorm.exception.AuthenticationException("Invalid password! Please try again");
         }
         return user;
     }
