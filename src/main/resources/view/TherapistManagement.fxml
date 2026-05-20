@@ -23,11 +23,11 @@
 
                 <HBox alignment="CENTER_LEFT" spacing="20.0">
                     <children>
-                  <ImageView fitHeight="57.0" fitWidth="61.0" pickOnBounds="true" smooth="false">
-                     <image>
-                        <Image url="@../image/Therapist.png" />
-                     </image>
-                  </ImageView>
+                        <ImageView fitHeight="57.0" fitWidth="61.0" pickOnBounds="true" smooth="false">
+                            <image>
+                                <Image url="@../image/Therapist.png" />
+                            </image>
+                        </ImageView>
                         <VBox>
                             <children>
                                 <Label text="Manage Therapists" textFill="#2D5F4E">
@@ -69,7 +69,7 @@
                                 <VBox prefHeight="48.0" prefWidth="0.0" spacing="5.0" HBox.hgrow="ALWAYS">
                                     <children>
                                         <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="SPECIALTY" textFill="#2d5e4db5" />
-                              <ComboBox fx:id="cmbTherapistSpecialty" prefHeight="26.0" prefWidth="322.0" style="-fx-background-radius: 8;" />
+                                        <ComboBox fx:id="cmbTherapistSpecialty" prefHeight="26.0" prefWidth="322.0" style="-fx-background-radius: 8;" />
                                     </children>
                                 </VBox>
                             </children>
@@ -121,7 +121,7 @@
                                     </font>
                                 </Label>
                                 <Region HBox.hgrow="ALWAYS" />
-                        <ComboBox fx:id="cmbStatusSearch" prefHeight="38.0" prefWidth="140.0" promptText="All Status" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
+                                <ComboBox fx:id="cmbStatusSearch" prefHeight="38.0" prefWidth="140.0" promptText="All Status" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
                                 <TextField fx:id="txtSearchTherapist" prefHeight="38.0" prefWidth="280.0" promptText="🔍 Search by ID or Name ..." style="-fx-background-radius: 8;" />
                                 <Button onAction="#handleDeleteTherapist" prefHeight="38.0" prefWidth="110.0" style="-fx-background-color: #C47171; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold; -fx-cursor: hand;" text="🗑 Delete" />
                             </children>

@@ -1,5 +1,6 @@
 package org.example.serenitytherapycenterorm.dao;
 
+import org.example.serenitytherapycenterorm.dao.custom.impl.ProgramDAOImpl;
 import org.example.serenitytherapycenterorm.dao.custom.impl.TherapistDAOImpl;
 import org.example.serenitytherapycenterorm.dao.custom.impl.UserDAOImpl;
 
@@ -23,6 +24,8 @@ public class DAOFactory {
                 return new UserDAOImpl();
             case THERAPIST:
                 return new TherapistDAOImpl();
+            case PROGRAM:
+                return new ProgramDAOImpl();
             default:
                 return null;
         }
