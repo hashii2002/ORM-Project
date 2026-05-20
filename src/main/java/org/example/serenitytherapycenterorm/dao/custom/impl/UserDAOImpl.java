@@ -52,7 +52,6 @@ public class UserDAOImpl implements UserDAO {
         try {
             transaction = session.beginTransaction();
 
-            // 💡 මුලින්ම අදාළ ID එක තියෙන Object එක Load කරගෙන පසුව Delete කරයි
             User user = session.get(User.class, id);
             if (user != null) {
                 session.delete(user);
@@ -82,7 +81,6 @@ public class UserDAOImpl implements UserDAO {
     public List<User> getAll() throws Exception {
         Session session = FactoryConfiguration.getInstance().getSession();
         try {
-            // HQL (Hibernate Query Language) මඟින් සියලුම දත්ත ලබා ගැනීම
             Query<User> query = session.createQuery("FROM User", User.class);
             return query.list();
         } finally {
@@ -90,14 +88,24 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-    // 💡 UserDAO එකට විතරක් අයිති Custom මෙතඩ් එක ලියන ආකාරය
     @Override
     public User findByUsername(String username) throws Exception {
         Session session = FactoryConfiguration.getInstance().getSession();
         try {
             Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
             query.setParameter("username", username);
-            return query.uniqueResult(); // එක සමාන Username එකක් පමණක් බලාපොරොත්තු වන නිසා
+            return query.uniqueResult();
+        } finally {
+            session.close();
+        }
+    }
+    @Override
+    public List<User> searchByFullName(String name) throws Exception {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        try {
+            Query<User> query = session.createQuery("FROM User WHERE LOWER(fullName) LIKE :name", User.class);
+            query.setParameter("name", "%" + name.toLowerCase() + "%");
+            return query.list();
         } finally {
             session.close();
         }

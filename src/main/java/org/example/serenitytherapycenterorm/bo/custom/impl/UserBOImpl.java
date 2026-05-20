@@ -15,19 +15,16 @@ public class UserBOImpl implements UserBO {
 
     private final UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.USER);
 
-    // 💡 Admin විසින් Password එකක් නොමැතිව Form එකෙන් Save කරද්දී වැඩ කරන මෙතඩ් එක
     @Override
     public boolean saveUser(UserDTO dto) throws Exception {
-        // 1. Admin එකතු කරන අයට සිස්ටම් එකෙන් දෙන Default Password එක
         String defaultPassword = "Serenity@123";
 
-        // 2. එම Default Password එක ආරක්ෂිතව Hash කරගැනීම
         String hashedPassword = PasswordUtil.hashPassword(defaultPassword);
 
         User user = new User(
                 null, // Auto-generated ID
                 dto.getUsername(),
-                hashedPassword, // සිස්ටම් එකෙන් හැදූ Password එක සේව් වේ
+                hashedPassword,
                 dto.getFullName(),
                 dto.getEmail(),
                 dto.getAddress(),
@@ -37,16 +34,14 @@ public class UserBOImpl implements UserBO {
         return userDAO.save(user);
     }
 
-    // 💡 පරිශීලකයා විසින්ම Password එකත් දීලා Register වෙද්දී වැඩ කරන මෙතඩ් එක
     @Override
     public boolean registerUser(UserDTO dto) throws Exception {
-        // මෙතනදී Form එකෙන්ම Password එක එන නිසා කෙලින්ම ආපු Password එක Hash කරනවා
         String hashedPassword = PasswordUtil.hashPassword(dto.getPassword());
 
         User user = new User(
                 null,
                 dto.getUsername(),
-                hashedPassword, // User දීපු Password එක සේව් වේ
+                hashedPassword,
                 dto.getFullName(),
                 dto.getEmail(),
                 dto.getAddress(),
@@ -107,5 +102,33 @@ public class UserBOImpl implements UserBO {
                 user.getFullName(), user.getEmail(), user.getAddress(),
                 user.getRole(), user.getStatus()
         );
+    }
+
+    @Override
+    public UserDTO searchUserById(Long id) throws Exception {
+        User user = userDAO.search(id);
+        if (user == null) return null;
+
+        return new UserDTO(
+                user.getId(), user.getUsername(), user.getPassword(),
+                user.getFullName(), user.getEmail(), user.getAddress(),
+                user.getRole(), user.getStatus()
+        );
+    }
+
+    @Override
+    public List<UserDTO> searchUserByFullName(String name) throws Exception {
+
+        List<User> list = userDAO.searchByFullName(name);
+        List<UserDTO> dtoList = new ArrayList<>();
+
+        for (User u : list) {
+            dtoList.add(new UserDTO(
+                    u.getId(), u.getUsername(), u.getPassword(),
+                    u.getFullName(), u.getEmail(), u.getAddress(),
+                    u.getRole(), u.getStatus()
+            ));
+        }
+        return dtoList;
     }
 }

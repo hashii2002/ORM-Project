@@ -10,5 +10,6 @@ public interface UserDAO extends CrudDAO<User,Long> {
 //    boolean update(User entity) throws Exception;
 //    boolean delete(Long id) throws Exception;
     User findByUsername(String username) throws Exception;
+    List<User> searchByFullName(String name) throws Exception;
 //    List<User> getAll() throws Exception;
 }

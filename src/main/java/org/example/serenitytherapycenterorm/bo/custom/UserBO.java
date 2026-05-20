@@ -13,4 +13,6 @@ public interface UserBO extends SuperBO {
     boolean deleteUser(Long id) throws Exception;
     List<UserDTO> getAllUsers() throws Exception;
     UserDTO authenticate(String username, String plainPassword) throws Exception;
+    UserDTO searchUserById(Long id) throws Exception;
+    List<UserDTO> searchUserByFullName(String name) throws Exception;
 }

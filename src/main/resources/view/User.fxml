@@ -50,12 +50,12 @@
                     </children>
                 </HBox>
 
-                <HBox spacing="15.0">
+                <HBox prefHeight="114.0" prefWidth="866.0" spacing="15.0">
                     <children>
                         <VBox prefHeight="110.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);" HBox.hgrow="ALWAYS">
                             <children>
                                 <Label text="Total Users" textFill="#757575" />
-                                <Label text="24" textFill="#2D5F4E">
+                                <Label fx:id="lblTotalUsers" text="24" textFill="#2D5F4E">
                                     <font>
                                         <Font name="System Bold" size="26.0" />
                                     </font>
@@ -63,10 +63,11 @@
                                 <Label text="● All system users" textFill="#4CAF50" />
                             </children>
                         </VBox>
+                  <Region prefHeight="114.0" prefWidth="37.0" />
                         <VBox prefHeight="110.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);" HBox.hgrow="ALWAYS">
                             <children>
                                 <Label text="Active Users" textFill="#757575" />
-                                <Label text="20" textFill="#2D5F4E">
+                                <Label fx:id="lblActiveUsers" text="20" textFill="#2D5F4E">
                                     <font>
                                         <Font name="System Bold" size="26.0" />
                                     </font>
@@ -74,26 +75,16 @@
                                 <Label text="● Currently active" textFill="#4CAF50" />
                             </children>
                         </VBox>
+                  <Region prefHeight="114.0" prefWidth="43.0" />
                         <VBox prefHeight="110.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);" HBox.hgrow="ALWAYS">
                             <children>
                                 <Label text="Inactive Users" textFill="#757575" />
-                                <Label text="4" textFill="#2D5F4E">
+                                <Label fx:id="lblInactiveUsers" text="4" textFill="#2D5F4E">
                                     <font>
                                         <Font name="System Bold" size="26.0" />
                                     </font>
                                 </Label>
                                 <Label text="● Disabled accounts" textFill="#FF9800" />
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="110.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);" HBox.hgrow="ALWAYS">
-                            <children>
-                                <Label text="New This Month" textFill="#757575" />
-                                <Label text="3" textFill="#2D5F4E">
-                                    <font>
-                                        <Font name="System Bold" size="26.0" />
-                                    </font>
-                                </Label>
-                                <Label text="● Recently added" textFill="#4CAF50" />
                             </children>
                         </VBox>
                     </children>
@@ -103,9 +94,18 @@
                     <children>
                         <HBox alignment="CENTER_LEFT" spacing="15.0">
                             <children>
-                                <TextField prefHeight="38.0" prefWidth="280.0" promptText="Search by ID or Name ..." style="-fx-background-radius: 8;" />
-                                <ComboBox prefHeight="38.0" prefWidth="140.0" promptText="All Roles" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
-                                <ComboBox prefHeight="38.0" prefWidth="140.0" promptText="All Status" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
+                        <HBox prefHeight="29.0" prefWidth="346.0">
+                           <children>
+                              <ImageView fitHeight="33.0" fitWidth="32.0" pickOnBounds="true" smooth="false">
+                                 <image>
+                                    <Image url="@../icon/searchicon.png" />
+                                 </image>
+                              </ImageView>
+                                      <TextField fx:id="txtSearch" prefHeight="38.0" prefWidth="280.0" promptText="Search by ID or Name ..." style="-fx-background-radius: 8;" />
+                           </children>
+                        </HBox>
+                                <ComboBox fx:id="cmbRoleSearch" prefHeight="38.0" prefWidth="140.0" promptText="All Roles" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
+                                <ComboBox fx:id="cmbStatusSearch" prefHeight="38.0" prefWidth="140.0" promptText="All Status" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
                                 <Region HBox.hgrow="ALWAYS" />
                                 <Button onAction="#btnAddNewUserOnAction" prefHeight="42.0" prefWidth="168.0" style="-fx-background-color: #2D5F4E; -fx-text-fill: white; -fx-background-radius: 12; -fx-font-weight: bold; -fx-cursor: hand;" text="+ Add New User">
                                     <font>
