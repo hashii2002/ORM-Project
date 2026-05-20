@@ -1,5 +1,6 @@
 package org.example.serenitytherapycenterorm.bo;
 
+import org.example.serenitytherapycenterorm.bo.custom.impl.TherapistBOImpl;
 import org.example.serenitytherapycenterorm.bo.custom.impl.UserBOImpl;
 
 public class BOFactory {
@@ -19,6 +20,8 @@ public class BOFactory {
         switch (types) {
             case USER:
                 return new UserBOImpl();
+            case THERAPIST:
+                return new TherapistBOImpl();
             default:
                 return null;
         }

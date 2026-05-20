@@ -1,5 +1,6 @@
 package org.example.serenitytherapycenterorm.dao;
 
+import org.example.serenitytherapycenterorm.dao.custom.impl.TherapistDAOImpl;
 import org.example.serenitytherapycenterorm.dao.custom.impl.UserDAOImpl;
 
 public class DAOFactory {
@@ -20,9 +21,8 @@ public class DAOFactory {
         switch (types) {
             case USER:
                 return new UserDAOImpl();
-            // පසුව සාදන DAO Implementations මෙතැනට එකතු කරන්න:
-            // case THERAPIST:
-            //     return new TherapistDAOImpl();
+            case THERAPIST:
+                return new TherapistDAOImpl();
             default:
                 return null;
         }

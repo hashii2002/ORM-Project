@@ -14,27 +14,27 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Therapist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 100)
-    private String name;
+    private String fullName;
 
-    @Column(length = 100)
-    private String specialty;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50)
+    private Specialty specialty;
 
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String phone;
 
-    @Column(length = 100)
+    @Column(length = 100, unique = true, nullable = false)
     private String email;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private Status status = Status.ACTIVE;
+    private Status status;
 
     @ManyToMany
     @JoinTable(
@@ -51,5 +51,9 @@ public class Therapist {
 
     public enum Status {
         ACTIVE, INACTIVE, ON_LEAVE
+    }
+
+    public enum Specialty {
+        CBT, COUNSELING, CLINICAL, FAMILY_MARRIAGE, CHILD_ADOLESCENT, EMDR, ART_MUSIC
     }
 }
