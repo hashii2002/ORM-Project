@@ -42,32 +42,30 @@ public class RegisterController {
         String password = txtPassword.getText();
         String confirmPassword = txtConfirmPassword.getText();
 
-        // 1. හිස්තැන් තිබේදැයි පරීක්ෂා කිරීම (Validation)
+        // Validation
         if (username.isEmpty() || fullName.isEmpty() || email.isEmpty() || address.isEmpty() || role == null || password.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Validation Error", "All fields are required!");
             return;
         }
 
-        // 2. Password එකේ දිග පරීක්ෂා කිරීම (අවම අකුරු 6ක්)
         if (password.length() < 6) {
             showAlert(Alert.AlertType.WARNING, "Validation Error", "Password must be at least 6 characters long!");
             return;
         }
 
-        // 3. Password දෙක සමානදැයි බැලීම
         if (!password.equals(confirmPassword)) {
             showAlert(Alert.AlertType.WARNING, "Validation Error", "Passwords do not match!");
             return;
         }
 
         try {
-            // 4. දත්ත DTO එකකට දමා BO Layer එකට යැවීම
+
             UserDTO dto = new UserDTO(null, username, password, fullName, email, address, role, User.Status.ACTIVE);
 
             if (userBO.registerUser(dto)) {
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Account Created Successfully!");
                 clearFields();
-                navigateToLogin(); // ලියාපදිංචි වූ පසු කෙලින්ම Login පිටුවට රැගෙන යයි
+                navigateToLogin();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,7 +85,7 @@ public class RegisterController {
 
             Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
             Stage stage = new Stage();
-            stage.setScene(new Scene(root, 642, 800));
+            stage.setScene(new Scene(root, 1280, 800));
             stage.setTitle("Serenity Therapy Center - Login");
             stage.centerOnScreen();
             stage.show();

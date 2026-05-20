@@ -13,17 +13,40 @@ import java.util.List;
 
 public class UserBOImpl implements UserBO {
 
-    // Loose Coupling
     private final UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.USER);
 
+    // 💡 Admin විසින් Password එකක් නොමැතිව Form එකෙන් Save කරද්දී වැඩ කරන මෙතඩ් එක
+    @Override
+    public boolean saveUser(UserDTO dto) throws Exception {
+        // 1. Admin එකතු කරන අයට සිස්ටම් එකෙන් දෙන Default Password එක
+        String defaultPassword = "Serenity@123";
+
+        // 2. එම Default Password එක ආරක්ෂිතව Hash කරගැනීම
+        String hashedPassword = PasswordUtil.hashPassword(defaultPassword);
+
+        User user = new User(
+                null, // Auto-generated ID
+                dto.getUsername(),
+                hashedPassword, // සිස්ටම් එකෙන් හැදූ Password එක සේව් වේ
+                dto.getFullName(),
+                dto.getEmail(),
+                dto.getAddress(),
+                dto.getRole(),
+                dto.getStatus()
+        );
+        return userDAO.save(user);
+    }
+
+    // 💡 පරිශීලකයා විසින්ම Password එකත් දීලා Register වෙද්දී වැඩ කරන මෙතඩ් එක
     @Override
     public boolean registerUser(UserDTO dto) throws Exception {
+        // මෙතනදී Form එකෙන්ම Password එක එන නිසා කෙලින්ම ආපු Password එක Hash කරනවා
         String hashedPassword = PasswordUtil.hashPassword(dto.getPassword());
 
         User user = new User(
                 null,
                 dto.getUsername(),
-                hashedPassword,
+                hashedPassword, // User දීපු Password එක සේව් වේ
                 dto.getFullName(),
                 dto.getEmail(),
                 dto.getAddress(),
@@ -68,15 +91,21 @@ public class UserBOImpl implements UserBO {
     }
 
     @Override
-    public User authenticate(String username, String plainPassword) throws Exception {
+    public UserDTO authenticate(String username, String plainPassword) throws Exception {
         User user = userDAO.findByUsername(username);
+
         if (user == null || User.Status.INACTIVE.equals(user.getStatus())) {
-            throw new org.example.serenitytherapycenterorm.exception.AuthenticationException("Invalid username or disabled account");
+            throw new AuthenticationException("Invalid username or disabled account");
         }
 
         if (!PasswordUtil.checkPassword(plainPassword, user.getPassword())) {
-            throw new org.example.serenitytherapycenterorm.exception.AuthenticationException("Invalid password! Please try again");
+            throw new AuthenticationException("Invalid password! Please try again");
         }
-        return user;
+
+        return new UserDTO(
+                user.getId(), user.getUsername(), user.getPassword(),
+                user.getFullName(), user.getEmail(), user.getAddress(),
+                user.getRole(), user.getStatus()
+        );
     }
 }

@@ -6,6 +6,7 @@ import org.example.serenitytherapycenterorm.entity.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
@@ -13,13 +14,14 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean save(User entity) throws Exception {
         Session session = FactoryConfiguration.getInstance().getSession();
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction = null;
         try {
-            session.persist(entity);
+            transaction = session.beginTransaction();
+            session.save(entity);
             transaction.commit();
             return true;
         } catch (Exception e) {
-            transaction.rollback();
+            if (transaction != null) transaction.rollback();
             throw e;
         } finally {
             session.close();
@@ -29,13 +31,14 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean update(User entity) throws Exception {
         Session session = FactoryConfiguration.getInstance().getSession();
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction = null;
         try {
-            session.merge(entity);
+            transaction = session.beginTransaction();
+            session.update(entity);
             transaction.commit();
             return true;
         } catch (Exception e) {
-            transaction.rollback();
+            if (transaction != null) transaction.rollback();
             throw e;
         } finally {
             session.close();
@@ -45,17 +48,20 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean delete(Long id) throws Exception {
         Session session = FactoryConfiguration.getInstance().getSession();
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction = null;
         try {
+            transaction = session.beginTransaction();
+
+            // 💡 මුලින්ම අදාළ ID එක තියෙන Object එක Load කරගෙන පසුව Delete කරයි
             User user = session.get(User.class, id);
             if (user != null) {
-                session.remove(user);
+                session.delete(user);
                 transaction.commit();
                 return true;
             }
             return false;
         } catch (Exception e) {
-            transaction.rollback();
+            if (transaction != null) transaction.rollback();
             throw e;
         } finally {
             session.close();
@@ -63,12 +69,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User findByUsername(String username) throws Exception {
+    public User search(Long id) throws Exception {
         Session session = FactoryConfiguration.getInstance().getSession();
         try {
-            Query<User> query = session.createQuery("FROM User WHERE username = :uname", User.class);
-            query.setParameter("uname", username);
-            return query.uniqueResult();
+            return session.get(User.class, id);
         } finally {
             session.close();
         }
@@ -78,7 +82,22 @@ public class UserDAOImpl implements UserDAO {
     public List<User> getAll() throws Exception {
         Session session = FactoryConfiguration.getInstance().getSession();
         try {
-            return session.createQuery("FROM User", User.class).list();
+            // HQL (Hibernate Query Language) මඟින් සියලුම දත්ත ලබා ගැනීම
+            Query<User> query = session.createQuery("FROM User", User.class);
+            return query.list();
+        } finally {
+            session.close();
+        }
+    }
+
+    // 💡 UserDAO එකට විතරක් අයිති Custom මෙතඩ් එක ලියන ආකාරය
+    @Override
+    public User findByUsername(String username) throws Exception {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        try {
+            Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
+            query.setParameter("username", username);
+            return query.uniqueResult(); // එක සමාන Username එකක් පමණක් බලාපොරොත්තු වන නිසා
         } finally {
             session.close();
         }

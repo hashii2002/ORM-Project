@@ -2,15 +2,23 @@ package org.example.serenitytherapycenterorm.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.example.serenitytherapycenterorm.bo.BOFactory;
 import org.example.serenitytherapycenterorm.bo.custom.UserBO;
 import org.example.serenitytherapycenterorm.dto.UserDTO;
 import org.example.serenitytherapycenterorm.entity.User;
+import org.example.serenitytherapycenterorm.exception.UiException;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +38,7 @@ public class UserController {
 
     @FXML
     public void initialize() {
-        // 1. සාමාන්‍ය Columns වලට UserDTO එකේ තියෙන Field Names Map කිරීම
+
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colFullName.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
@@ -39,16 +47,12 @@ public class UserController {
         colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        // 2. Action Column එකට TM ක්ලාස් එකක් නැතුව බටන් එකක් එකතු කිරීම
         addButtonToTable();
-
-        // 3. දත්ත Load කිරීම
         loadAllUsers();
     }
 
     private void loadAllUsers() {
         try {
-            // BO Layer එකෙන් කෙලින්ම එන UserDTO List එක Table එකට දමයි
             List<UserDTO> allUsers = userBO.getAllUsers();
             ObservableList<UserDTO> dtoObservableList = FXCollections.observableArrayList(allUsers);
             tblUser.setItems(dtoObservableList);
@@ -68,12 +72,9 @@ public class UserController {
                     private final Button btnDelete = new Button("Delete");
 
                     {
-                        // බටන් එකේ Style එක ලස්සන කරගැනීම
                         btnDelete.setStyle("-fx-background-color: #ff6b6b; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;");
 
-                        // බටන් එක Click කරද්දී සිදුවන Action එක
                         btnDelete.setOnAction(event -> {
-                            // ක්ලික් කරපු පේළියට අදාළ UserDTO ඔබ්ජෙක්ට් එක ගැනීම
                             UserDTO dto = getTableView().getItems().get(getIndex());
 
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + dto.getUsername() + "?", ButtonType.YES, ButtonType.NO);
@@ -83,7 +84,7 @@ public class UserController {
                                 try {
                                     if (userBO.deleteUser(dto.getId())) {
                                         showAlert(Alert.AlertType.INFORMATION, "Success", "User Deleted Successfully!");
-                                        loadAllUsers(); // ටේබල් එක රිප්‍රෙෂ් කිරීම
+                                        loadAllUsers();
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -99,7 +100,7 @@ public class UserController {
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            setGraphic(btnDelete); // පේළිය හිස් නැත්නම් බටන් එක පෙන්වයි
+                            setGraphic(btnDelete);
                         }
                     }
                 };
@@ -108,6 +109,38 @@ public class UserController {
         };
 
         colActions.setCellFactory(cellFactory);
+    }
+
+    @FXML
+    void btnAddNewUserOnAction(ActionEvent event) {
+        try {
+            java.net.URL resource = getClass().getResource("/view/AddNewUser.fxml");
+            if (resource == null) {
+                throw new UiException("FXML file not found at path: /view/AddNewUser.fxml");
+            }
+
+            Parent root = FXMLLoader.load(resource);
+
+            // Create Pop-Up Window
+            Stage popupStage = new Stage();
+            popupStage.setScene(new Scene(root));
+            popupStage.setTitle("Serenity Therapy Center - Add New User");
+
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.initOwner(tblUser.getScene().getWindow());
+
+            popupStage.setResizable(false);
+            popupStage.showAndWait();
+
+            loadAllUsers();
+
+        } catch (UiException e) {
+            showAlert(Alert.AlertType.ERROR, "UI Error", e.getMessage());
+        } catch (IOException e) {
+            UiException wrappedException = new UiException("Failed to open Add New User window", e);
+            wrappedException.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "System Error", wrappedException.getMessage());
+        }
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {
