@@ -43,7 +43,7 @@
                                     <font>
                                         <Font size="13.0" />
                                     </font></Label>
-                                <Label text="1,248" textFill="#2D5F4E">
+                                <Label fx:id="lblTotalPatients" text="1,248" textFill="#2D5F4E">
                                     <font>
                                         <Font name="System Bold" size="24.0" />
                                     </font>
@@ -61,7 +61,7 @@
                                     <font>
                                         <Font size="13.0" />
                                     </font></Label>
-                                <Label text="56" textFill="#2D5F4E">
+                                <Label fx:id="lblInactivePatients" text="56" textFill="#2D5F4E">
                                     <font>
                                         <Font name="System Bold" size="24.0" />
                                     </font>
@@ -79,7 +79,7 @@
                                     <font>
                                         <Font size="13.0" />
                                     </font></Label>
-                                <Label text="356" textFill="#2D5F4E">
+                                <Label fx:id="lblCompletedTreatments" text="356" textFill="#2D5F4E">
                                     <font>
                                         <Font name="System Bold" size="24.0" />
                                     </font>
@@ -105,16 +105,16 @@
                                                 <Image url="@../icon/searchicon.png" />
                                             </image>
                                         </ImageView>
-                                        <TextField prefHeight="32.0" promptText="Search by name or ID" style="-fx-background-color: transparent; -fx-prompt-text-fill: #9E9E9E;" HBox.hgrow="ALWAYS">
+                                        <TextField fx:id="txtSearch" onAction="#handleSearchEnter" prefHeight="32.0" promptText="Search by name or ID" style="-fx-background-color: transparent; -fx-prompt-text-fill: #9E9E9E;" HBox.hgrow="ALWAYS">
                                             <font>
                                                 <Font size="13.0" />
                                             </font></TextField>
                                     </children>
                                 </HBox>
-                                <ComboBox prefHeight="36.0" prefWidth="150.0" promptText="All Status" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
-                                <ComboBox prefHeight="36.0" prefWidth="160.0" promptText="All Programs" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
+                                <ComboBox fx:id="cmbFilterStatus" prefHeight="36.0" prefWidth="150.0" promptText="All Status" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
+                                <ComboBox fx:id="cmbFilterPrograms" prefHeight="36.0" prefWidth="160.0" promptText="All Programs" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
                                 <Region HBox.hgrow="ALWAYS" />
-                        <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="105.0" style="-fx-background-color: #d45b55; -fx-background-radius: 10;" text="Delete" textFill="#ffffffc6">
+                        <Button mnemonicParsing="false" onAction="#handleDeletePatientClick" prefHeight="35.0" prefWidth="105.0" style="-fx-background-color: #d45b55; -fx-background-radius: 10;" text="Delete" textFill="#ffffffc6">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
