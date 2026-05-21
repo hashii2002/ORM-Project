@@ -1,10 +1,7 @@
 package org.example.serenitytherapycenterorm.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,7 +11,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "therapy_programs")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -45,7 +43,12 @@ public class TherapyProgram {
     @ToString.Exclude
     private List<Patient> patients = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "programs")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "therapist_program",
+            joinColumns = @JoinColumn(name = "program_id"),
+            inverseJoinColumns = @JoinColumn(name = "therapist_id")
+    )
     @ToString.Exclude
     private Set<Therapist> therapists = new HashSet<>();
 }

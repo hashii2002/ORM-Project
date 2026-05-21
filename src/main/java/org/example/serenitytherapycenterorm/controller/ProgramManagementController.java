@@ -9,6 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.serenitytherapycenterorm.bo.BOFactory;
 import org.example.serenitytherapycenterorm.bo.custom.ProgramBO;
+import org.example.serenitytherapycenterorm.bo.custom.TherapistBO;
+import org.example.serenitytherapycenterorm.dto.TherapistDTO;
 import org.example.serenitytherapycenterorm.dto.TherapyProgramDTO;
 import org.example.serenitytherapycenterorm.exception.ValidationException;
 
@@ -24,6 +26,7 @@ public class ProgramManagementController {
     @FXML private TextField txtProgramFee;
     @FXML private TextArea txtProgramDescription;
     @FXML private TextField txtSearchProgram;
+    @FXML private ComboBox<String> cmbAssignTherapist;
 
     @FXML private TableView<TherapyProgramDTO> tblPrograms;
     @FXML private TableColumn<TherapyProgramDTO, Long> colProgramId;
@@ -32,8 +35,10 @@ public class ProgramManagementController {
     @FXML private TableColumn<TherapyProgramDTO, Integer> colTotalSessions;
     @FXML private TableColumn<TherapyProgramDTO, BigDecimal> colProgramFee;
     @FXML private TableColumn<TherapyProgramDTO, String> colProgramDescription;
+    @FXML private TableColumn<TherapyProgramDTO, String> colAssignedTherapist;
 
     private final ProgramBO programBO = (ProgramBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.PROGRAM);
+    private final TherapistBO therapistBO = (TherapistBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.THERAPIST);
     private ObservableList<TherapyProgramDTO> masterDataList = FXCollections.observableArrayList();
     private FilteredList<TherapyProgramDTO> filteredDataList;
     private Long selectedProgramId = null;
@@ -46,10 +51,12 @@ public class ProgramManagementController {
         colTotalSessions.setCellValueFactory(new PropertyValueFactory<>("totalSessions"));
         colProgramFee.setCellValueFactory(new PropertyValueFactory<>("fee"));
         colProgramDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colAssignedTherapist.setCellValueFactory(new PropertyValueFactory<>("therapistName"));
 
         loadAllPrograms();
         setupSearchLogic();
         setupTableSelection();
+        loadTherapistsToComboBox();
     }
 
     private void loadAllPrograms() {
@@ -87,19 +94,29 @@ public class ProgramManagementController {
                 txtTotalSessions.setText(String.valueOf(newSelection.getTotalSessions()));
                 txtProgramFee.setText(newSelection.getFee().toString());
                 txtProgramDescription.setText(newSelection.getDescription());
+
+                if (newSelection.getTherapistName() != null) {
+                    cmbAssignTherapist.setValue(newSelection.getTherapistName());
+                } else {
+                    cmbAssignTherapist.getSelectionModel().clearSelection();
+                }
             }
         });
     }
 
     @FXML
     void handleSaveProgram(ActionEvent event) {
-        try {
+        if (txtProgramName.getText().trim().isEmpty() ||
+                txtProgramDuration.getText().trim().isEmpty() ||
+                txtTotalSessions.getText().trim().isEmpty() ||
+                txtProgramFee.getText().trim().isEmpty()) {
 
-            if (txtProgramName.getText().trim().isEmpty() || txtProgramDuration.getText().trim().isEmpty() ||
-                    txtTotalSessions.getText().trim().isEmpty() || txtProgramFee.getText().trim().isEmpty()) {
-                showAlert(Alert.AlertType.WARNING, "Validation Error", "All fields except description are required!");
-                return;
-            }
+            showAlert(Alert.AlertType.WARNING, "Validation Error", "All fields except description are required!");
+            return;
+        }
+
+        try {
+            String selectedTherapist = cmbAssignTherapist.getValue();
 
             TherapyProgramDTO dto = new TherapyProgramDTO(
                     null,
@@ -107,16 +124,17 @@ public class ProgramManagementController {
                     txtProgramDuration.getText().trim(),
                     new BigDecimal(txtProgramFee.getText().trim()),
                     Integer.parseInt(txtTotalSessions.getText().trim()),
-                    txtProgramDescription.getText().trim()
+                    txtProgramDescription.getText().trim(),
+                    selectedTherapist
             );
 
-            if (programBO.saveProgram(dto)) {
+            if (programBO.saveProgram(dto, selectedTherapist)) {
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Program saved successfully!");
                 loadAllPrograms();
                 handleClearProgram(null);
             }
         } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.WARNING, "Validation Error", "Sessions and Fee must be numeric values!");
+            showAlert(Alert.AlertType.WARNING, "Validation Error", "Sessions and Fee must be numeric values (Do not use spaces or commas)!");
         } catch (ValidationException e) {
             showAlert(Alert.AlertType.WARNING, "Validation Error", e.getMessage());
         } catch (Exception e) {
@@ -131,17 +149,30 @@ public class ProgramManagementController {
             return;
         }
 
+        if (txtProgramName.getText().trim().isEmpty() ||
+                txtProgramDuration.getText().trim().isEmpty() ||
+                txtTotalSessions.getText().trim().isEmpty() ||
+                txtProgramFee.getText().trim().isEmpty()) {
+
+            showAlert(Alert.AlertType.WARNING, "Validation Error", "All fields except description are required!");
+            return;
+        }
+
         try {
+
+            String selectedTherapist = cmbAssignTherapist.getValue();
+
             TherapyProgramDTO dto = new TherapyProgramDTO(
                     selectedProgramId,
                     txtProgramName.getText().trim(),
                     txtProgramDuration.getText().trim(),
                     new BigDecimal(txtProgramFee.getText().trim()),
                     Integer.parseInt(txtTotalSessions.getText().trim()),
-                    txtProgramDescription.getText().trim()
+                    txtProgramDescription.getText().trim(),
+                    selectedTherapist
             );
 
-            if (programBO.updateProgram(dto)) {
+            if (programBO.updateProgram(dto, selectedTherapist)) {
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Program updated successfully!");
                 loadAllPrograms();
                 handleClearProgram(null);
@@ -179,6 +210,20 @@ public class ProgramManagementController {
         }
     }
 
+    private void loadTherapistsToComboBox() {
+        try {
+            List<TherapistDTO> therapistList = therapistBO.getAllTherapists();
+            ObservableList<String> therapistNames = FXCollections.observableArrayList();
+
+            for (TherapistDTO therapist : therapistList) {
+                therapistNames.add(therapist.getFullName());
+            }
+            cmbAssignTherapist.setItems(therapistNames);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     void handleClearProgram(ActionEvent event) {
         selectedProgramId = null;
@@ -188,6 +233,7 @@ public class ProgramManagementController {
         txtProgramFee.clear();
         txtProgramDescription.clear();
         tblPrograms.getSelectionModel().clearSelection();
+        cmbAssignTherapist.getSelectionModel().clearSelection();
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {

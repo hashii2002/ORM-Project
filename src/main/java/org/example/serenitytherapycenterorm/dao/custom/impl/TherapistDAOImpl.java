@@ -72,4 +72,16 @@ public class TherapistDAOImpl implements TherapistDAO {
         session.close();
         return list;
     }
+
+    @Override
+    public Therapist getTherapistByName(String name) throws Exception {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        try {
+            return session.createQuery("FROM Therapist WHERE fullName = :name", Therapist.class)
+                    .setParameter("name", name)
+                    .uniqueResult();
+        } finally {
+            session.close();
+        }
+    }
 }

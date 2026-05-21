@@ -3,7 +3,9 @@ package org.example.serenitytherapycenterorm.bo.custom.impl;
 import org.example.serenitytherapycenterorm.bo.custom.ProgramBO;
 import org.example.serenitytherapycenterorm.dao.DAOFactory;
 import org.example.serenitytherapycenterorm.dao.custom.ProgramDAO;
+import org.example.serenitytherapycenterorm.dao.custom.TherapistDAO;
 import org.example.serenitytherapycenterorm.dto.TherapyProgramDTO;
+import org.example.serenitytherapycenterorm.entity.Therapist;
 import org.example.serenitytherapycenterorm.entity.TherapyProgram;
 import org.example.serenitytherapycenterorm.exception.ValidationException;
 
@@ -15,6 +17,7 @@ import java.util.List;
 public class ProgramBOImpl implements ProgramBO {
 
     private final ProgramDAO programDAO = (ProgramDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.PROGRAM);
+    private final TherapistDAO therapistDAO = (TherapistDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.THERAPIST);
 
     private static final String NAME_PATTERN = "^[A-Za-z0-9|\\s\\-]{3,100}$";
     private static final String DURATION_PATTERN = "^[A-Za-z0-9|\\s]{2,30}$";
@@ -36,12 +39,14 @@ public class ProgramBOImpl implements ProgramBO {
     }
 
     @Override
-    public boolean saveProgram(TherapyProgramDTO dto) throws Exception {
+    public boolean saveProgram(TherapyProgramDTO dto, String selectedTherapistName) throws Exception {
         validateProgram(dto);
 
-        BigDecimal sessionFee = dto.getFee().divide(BigDecimal.valueOf(dto.getTotalSessions()), 2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal sessionFee = dto.getFee().divide(
+                BigDecimal.valueOf(dto.getTotalSessions()), 2, java.math.RoundingMode.HALF_UP
+        );
 
-        return programDAO.save(new TherapyProgram(
+        TherapyProgram program = new TherapyProgram(
                 null,
                 dto.getName(),
                 dto.getDuration(),
@@ -49,28 +54,56 @@ public class ProgramBOImpl implements ProgramBO {
                 dto.getTotalSessions(),
                 sessionFee,
                 dto.getDescription(),
-                new ArrayList<>(),
-                new HashSet<>()
-        ));
+                new ArrayList<>(), // Patients list
+                new HashSet<>()    // Therapists set
+        );
+
+        if (selectedTherapistName != null && !selectedTherapistName.trim().isEmpty()) {
+            Therapist therapist = therapistDAO.getTherapistByName(selectedTherapistName);
+            if (therapist != null) {
+                program.getTherapists().add(therapist);
+                therapist.getPrograms().add(program);
+            }
+        }
+
+        return programDAO.save(program);
     }
 
     @Override
-    public boolean updateProgram(TherapyProgramDTO dto) throws Exception {
+    public boolean updateProgram(TherapyProgramDTO dto, String selectedTherapistName) throws Exception {
         validateProgram(dto);
 
-        BigDecimal sessionFee = dto.getFee().divide(BigDecimal.valueOf(dto.getTotalSessions()), 2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal sessionFee = dto.getFee().divide(
+                BigDecimal.valueOf(dto.getTotalSessions()), 2, java.math.RoundingMode.HALF_UP
+        );
 
-        return programDAO.update(new TherapyProgram(
-                dto.getId(),
-                dto.getName(),
-                dto.getDuration(),
-                dto.getFee(),
-                dto.getTotalSessions(),
-                sessionFee,
-                dto.getDescription(),
-                new ArrayList<>(),
-                new HashSet<>()
-        ));
+        TherapyProgram program = programDAO.search(dto.getId());
+        if (program == null) return false;
+
+        program.setName(dto.getName());
+        program.setDuration(dto.getDuration());
+        program.setFee(dto.getFee());
+        program.setTotalSessions(dto.getTotalSessions());
+        program.setSessionFee(sessionFee);
+        program.setDescription(dto.getDescription());
+
+        if (program.getTherapists() != null) {
+            for (Therapist t : program.getTherapists()) {
+                t.getPrograms().remove(program);
+            }
+            program.getTherapists().clear();
+        }
+
+
+        if (selectedTherapistName != null && !selectedTherapistName.trim().isEmpty()) {
+            Therapist therapist = therapistDAO.getTherapistByName(selectedTherapistName);
+            if (therapist != null) {
+                program.getTherapists().add(therapist);
+                therapist.getPrograms().add(program);
+            }
+        }
+
+        return programDAO.update(program);
     }
 
     @Override
@@ -82,7 +115,11 @@ public class ProgramBOImpl implements ProgramBO {
     public TherapyProgramDTO searchProgramById(Long id) throws Exception {
         TherapyProgram p = programDAO.search(id);
         if (p == null) return null;
-        return new TherapyProgramDTO(p.getId(), p.getName(), p.getDuration(), p.getFee(), p.getTotalSessions(), p.getDescription());
+
+        String tName = (p.getTherapists() != null && !p.getTherapists().isEmpty())
+                ? p.getTherapists().iterator().next().getFullName() : null;
+
+        return new TherapyProgramDTO(p.getId(), p.getName(), p.getDuration(), p.getFee(), p.getTotalSessions(), p.getDescription(), tName);
     }
 
     @Override
@@ -90,7 +127,10 @@ public class ProgramBOImpl implements ProgramBO {
         List<TherapyProgram> list = programDAO.searchByName(name);
         List<TherapyProgramDTO> dtoList = new ArrayList<>();
         for (TherapyProgram p : list) {
-            dtoList.add(new TherapyProgramDTO(p.getId(), p.getName(), p.getDuration(), p.getFee(), p.getTotalSessions(), p.getDescription()));
+            String tName = (p.getTherapists() != null && !p.getTherapists().isEmpty())
+                    ? p.getTherapists().iterator().next().getFullName() : null;
+
+            dtoList.add(new TherapyProgramDTO(p.getId(), p.getName(), p.getDuration(), p.getFee(), p.getTotalSessions(), p.getDescription(), tName));
         }
         return dtoList;
     }
@@ -100,7 +140,10 @@ public class ProgramBOImpl implements ProgramBO {
         List<TherapyProgram> list = programDAO.getAll();
         List<TherapyProgramDTO> dtoList = new ArrayList<>();
         for (TherapyProgram p : list) {
-            dtoList.add(new TherapyProgramDTO(p.getId(), p.getName(), p.getDuration(), p.getFee(), p.getTotalSessions(), p.getDescription()));
+            String tName = (p.getTherapists() != null && !p.getTherapists().isEmpty())
+                    ? p.getTherapists().iterator().next().getFullName() : null;
+
+            dtoList.add(new TherapyProgramDTO(p.getId(), p.getName(), p.getDuration(), p.getFee(), p.getTotalSessions(), p.getDescription(), tName));
         }
         return dtoList;
     }

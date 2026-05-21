@@ -15,4 +15,5 @@ public class TherapyProgramDTO {
     private BigDecimal fee;
     private Integer totalSessions;
     private String description;
+    private String therapistName;
 }

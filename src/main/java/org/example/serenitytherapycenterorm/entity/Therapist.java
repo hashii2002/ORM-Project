@@ -1,17 +1,15 @@
 package org.example.serenitytherapycenterorm.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "therapists")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Therapist {
@@ -36,7 +34,7 @@ public class Therapist {
     @Column(nullable = false, length = 20)
     private Status status;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "therapist_program",
             joinColumns = @JoinColumn(name = "therapist_id"),
@@ -45,7 +43,7 @@ public class Therapist {
     @ToString.Exclude
     private Set<TherapyProgram> programs = new HashSet<>();
 
-    @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @ToString.Exclude
     private Set<TherapySession> sessions = new HashSet<>();
 
