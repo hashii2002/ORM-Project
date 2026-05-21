@@ -49,6 +49,16 @@
                      <font>
                         <Font size="15.0" />
                      </font></Button>
+                  <Button mnemonicParsing="false" onAction="#btnManagePatientOnAction" prefHeight="45.0" prefWidth="230.0" style="-fx-background-color: transparent; -fx-text-fill: #E1EDE7; -fx-alignment: LEFT; -fx-padding: 0 0 0 20; -fx-background-radius: 10; -fx-cursor: hand;" text="Manage Patient">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#btnSessionOnAction" prefHeight="45.0" prefWidth="230.0" style="-fx-background-color: transparent; -fx-text-fill: #E1EDE7; -fx-alignment: LEFT; -fx-padding: 0 0 0 20; -fx-background-radius: 10; -fx-cursor: hand;" text="Manage Therapy Session">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
 
                         <Button mnemonicParsing="false" onAction="#btnPaymentsOnAction" prefHeight="45.0" prefWidth="230.0" style="-fx-background-color: transparent; -fx-text-fill: #E1EDE7; -fx-alignment: LEFT; -fx-padding: 0 0 0 20; -fx-background-radius: 10; -fx-cursor: hand;" text="Payments &amp; Invoices">
                      <font>

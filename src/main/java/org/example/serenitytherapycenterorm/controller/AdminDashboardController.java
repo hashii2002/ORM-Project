@@ -43,6 +43,14 @@ public class AdminDashboardController {
     }
 
     @FXML
+    void btnManagePatientOnAction(ActionEvent event) {loadUI("/view/Patient.fxml");
+    }
+
+    @FXML
+    void btnSessionOnAction(ActionEvent event) {loadUI("/view/TherapySessionSheduling.fxml");
+    }
+
+    @FXML
     void btnPaymentsOnAction(ActionEvent event) {
         loadUI("/view/Payment.fxml");
     }

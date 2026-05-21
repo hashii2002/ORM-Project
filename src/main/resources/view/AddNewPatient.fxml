@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" minHeight="800.0" prefHeight="800.0" style="-fx-background-color: transparent; -fx-background: #e1ede7;" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.serenitytherapycenterorm.controller.AddNewPatientController">
+    <content>
+        <VBox spacing="20.0" style="-fx-padding: 25 30 25 30;">
+            <children>
+
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <Label text="Patient Registration" textFill="#2D5F4E">
+                            <font>
+                                <Font name="System Bold" size="26.0" />
+                            </font>
+                            <graphic>
+                                <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../icon/patienticon.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Label>
+                    </children>
+                </HBox>
+
+                <VBox spacing="20.0" style="-fx-background-color: #FFFFFF; -fx-padding: 25; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 15, 0, 0, 5);" VBox.vgrow="ALWAYS">
+                    <children>
+
+                        <Label text="➕  Register New Patient" textFill="#2D5F4E">
+                            <font>
+                                <Font name="System Bold" size="15.0" />
+                            </font>
+                        </Label>
+                        <Separator style="-fx-opacity: 0.5;" />
+
+                        <VBox spacing="6.0">
+                            <children>
+                                <Label text="FULL NAME *" textFill="#2D5F4E">
+                                    <font>
+                                        <Font name="System Bold" size="11.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="txtPatientName" prefHeight="38.0" promptText="Enter patient full name" style="-fx-background-radius: 8; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-background-color: #FAFAFA; -fx-padding: 0 12 0 12;" />
+                            </children>
+                        </VBox>
+
+                        <HBox spacing="15.0">
+                            <children>
+                                <VBox prefHeight="62.0" prefWidth="218.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label text="Date Of Birth" textFill="#2D5F4E">
+                                            <font>
+                                                <Font name="System Bold" size="11.0" />
+                                            </font>
+                                        </Label>
+                                        <DatePicker fx:id="txtDOB" prefHeight="38.0" prefWidth="298.0" style="-fx-background-radius: 8; -fx-border-color: #E0E0E0; -fx-background-color: #FAFAFA;" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label text="PHONE NUMBER *" textFill="#2D5F4E">
+                                            <font>
+                                                <Font name="System Bold" size="11.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="txtPatientPhone" prefHeight="38.0" promptText="07xxxxxxxx" style="-fx-background-radius: 8; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-background-color: #FAFAFA; -fx-padding: 0 12 0 12;" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <VBox spacing="6.0">
+                            <children>
+                                <Label text="ADDRESS" textFill="#2D5F4E">
+                                    <font>
+                                        <Font name="System Bold" size="11.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="txtPatientAddress" prefHeight="38.0" promptText="Enter street address, city" style="-fx-background-radius: 8; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-background-color: #FAFAFA; -fx-padding: 0 12 0 12;" />
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="6.0">
+                            <children>
+                                <Label text="INTERVIEW NOTE" textFill="#2D5F4E">
+                                    <font>
+                                        <Font name="System Bold" size="11.0" />
+                                    </font>
+                                </Label>
+                                <TextArea fx:id="txtInterviewNote" prefHeight="85.0" promptText="Enter dynamic initial observation or interview notes..." style="-fx-background-radius: 8; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-padding: 5; -fx-control-inner-background: #FAFAFA;" wrapText="true">
+                                    <cursor>
+                                        <Cursor fx:constant="TEXT" />
+                                    </cursor>
+                                </TextArea>
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="6.0">
+                            <children>
+                                <Label text="ENROLL THERAPY PROGRAM" textFill="#2D5F4E">
+                                    <font>
+                                        <Font name="System Bold" size="11.0" />
+                                    </font>
+                                </Label>
+                                <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                    <children>
+                                        <ComboBox fx:id="cmbPatientProgram" maxWidth="Infinity" prefHeight="38.0" promptText="Select a therapy program to enroll..." style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" HBox.hgrow="ALWAYS" />
+                                        <Button fx:id="btnAddPgm" onAction="#handleAddProgramToTable" prefHeight="38.0" prefWidth="100.0" style="-fx-background-color: #2D5F4E; -fx-text-fill: white; -fx-background-radius: 8; -fx-font-weight: bold; -fx-cursor: hand;" text="+ Add" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="6.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <Label text="PROGRAMS &amp; PAYMENT SELECTION" textFill="#2D5F4E">
+                                    <font>
+                                        <Font name="System Bold" size="11.0" />
+                                    </font>
+                                </Label>
+                                <TableView fx:id="tblSelectedPgm" minHeight="160.0" prefHeight="180.0" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="colProgramName" prefWidth="220.0" text="Program" />
+                                        <TableColumn fx:id="colTotalSessions" prefWidth="120.0" text="Total Sessions" />
+                                        <TableColumn fx:id="colSubtotal" prefWidth="140.0" text="Subtotal (LKR)" />
+                                        <TableColumn fx:id="colAction" prefWidth="80.0" text="Action" />
+                                    </columns>
+                                    <columnResizePolicy>
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                    </columnResizePolicy>
+                                </TableView>
+                            </children>
+                        </VBox>
+
+                        <HBox spacing="15.0">
+                            <children>
+                                <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label text="PAYMENT METHOD *" textFill="#2D5F4E">
+                                            <font>
+                                                <Font name="System Bold" size="11.0" />
+                                            </font>
+                                        </Label>
+                                        <ComboBox fx:id="cmbPaymentMethod" maxWidth="Infinity" prefHeight="38.0" promptText="Select Method" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label text="DISCOUNT (LKR)" textFill="#2D5F4E">
+                                            <font>
+                                                <Font name="System Bold" size="11.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="txtDiscount" prefHeight="38.0" promptText="0.00" style="-fx-background-radius: 8; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-background-color: #FAFAFA; -fx-padding: 0 12 0 12;" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label text="UPFRONT PAID AMOUNT (LKR) *" textFill="#2D5F4E">
+                                            <font>
+                                                <Font name="System Bold" size="11.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="txtUpfrontPaid" prefHeight="38.0" promptText="Enter amount paid now" style="-fx-background-radius: 8; -fx-border-color: #2D5F4E; -fx-border-radius: 8; -fx-background-color: #FAFAFA; -fx-padding: 0 12 0 12; -fx-font-weight: bold;" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <VBox spacing="10.0" style="-fx-background-color: #F4F8F6; -fx-padding: 15; -fx-background-radius: 12; -fx-border-color: #E2ECE7; -fx-border-radius: 12;">
+                            <children>
+                                <HBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label text="Subtotal:" textFill="#636E72">
+                                            <font>
+                                                <Font size="13.0" />
+                                            </font></Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="lblSubtotal" text="0.00 LKR" textFill="#2D3436">
+                                            <font>
+                                                <Font name="System Bold" size="13.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label text="Discount:" textFill="#636E72">
+                                            <font>
+                                                <Font size="13.0" />
+                                            </font></Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="lblDiscount" text="- 0.00 LKR" textFill="#C47171">
+                                            <font>
+                                                <Font name="System Bold" size="13.0" />
+                                            </font></Label>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label text="Total Program Fee:" textFill="#2D3436">
+                                            <font>
+                                                <Font name="System Bold" size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="lblTotalDue" text="0.00 LKR" textFill="#2D3436">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <Separator style="-fx-opacity: 0.6;" />
+                                <HBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label text="Upfront Paid (Current Transaction):" textFill="#2D5F4E">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="lblUpfrontPaidDisplay" text="0.00 LKR" textFill="#2D5F4E">
+                                            <font>
+                                                <Font name="System Bold" size="16.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label text="Remaining Balance Due:" textFill="#C47171">
+                                            <font>
+                                                <Font name="System Bold" size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="lblRemainingBalance" text="0.00 LKR" textFill="#C47171">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                            <children>
+                                <Label fx:id="lblRegMessage" textFill="#2D5F4E" wrapText="true">
+                                    <font>
+                                        <Font name="System Italic" size="12.0" />
+                                    </font></Label>
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button onAction="#handleClearPatientForm" prefHeight="38.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-color: #2D5F4E; -fx-border-radius: 8; -fx-background-radius: 8; -fx-text-fill: #2D5F4E; -fx-font-weight: bold; -fx-cursor: hand;" text="🔄  Clear" />
+                                <Button onAction="#handleRegisterPatient" prefHeight="38.0" prefWidth="160.0" style="-fx-background-color: #2D5F4E; -fx-text-fill: white; -fx-background-radius: 8; -fx-font-weight: bold; -fx-cursor: hand;" text="💾  Register Patient" />
+                            </children>
+                        </HBox>
+
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </content>
+</ScrollPane>
