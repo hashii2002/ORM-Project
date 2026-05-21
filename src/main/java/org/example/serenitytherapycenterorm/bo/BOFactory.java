@@ -1,9 +1,6 @@
 package org.example.serenitytherapycenterorm.bo;
 
-import org.example.serenitytherapycenterorm.bo.custom.impl.PatientBOImpl;
-import org.example.serenitytherapycenterorm.bo.custom.impl.ProgramBOImpl;
-import org.example.serenitytherapycenterorm.bo.custom.impl.TherapistBOImpl;
-import org.example.serenitytherapycenterorm.bo.custom.impl.UserBOImpl;
+import org.example.serenitytherapycenterorm.bo.custom.impl.*;
 
 public class BOFactory {
     private static BOFactory boFactory;
@@ -15,7 +12,7 @@ public class BOFactory {
     }
 
     public enum BOTypes {
-        USER, THERAPIST, PROGRAM, PATIENT
+        USER, THERAPIST, PROGRAM, PATIENT, SESSION
     }
 
     public SuperBO getBO(BOTypes types) {
@@ -28,6 +25,8 @@ public class BOFactory {
                 return new ProgramBOImpl();
             case PATIENT:
                 return new PatientBOImpl();
+            case SESSION:
+                return new TherapySessionBOImpl();
             default:
                 return null;
         }

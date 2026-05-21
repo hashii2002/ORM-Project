@@ -1,68 +1,43 @@
 package org.example.serenitytherapycenterorm.entity;
 
+import lombok.*;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
-import java.time.LocalTime;
 
-@Entity
-@Table(name = "therapy_sessions")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-
+@Getter
+@Setter
+@ToString
+@Entity
+@Table(name = "therapy_session")
 public class TherapySession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long sessionId;
 
-    @Column(name = "sequence_number")
-    private Integer sequenceNumber;
-
-    @Column(name = "session_date")
-    private LocalDate sessionDate;
-
-    @Column(name = "session_time")
-    private LocalTime sessionTime;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private SessionStatus status = SessionStatus.UNSCHEDULED;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "payment_status", nullable = false, length = 20)
-    private PaymentStatus paymentStatus = PaymentStatus.PENDING;
-
-    @Column(length = 500)
-    private String notes;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "therapist_id")
-    private Therapist therapist;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "program_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "program_id", nullable = false)
     private TherapyProgram program;
 
-    @OneToOne(mappedBy = "session", cascade = CascadeType.ALL)
-    private Payment payment;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "therapist_id", nullable = false)
+    private Therapist therapist;
+
+    @Column(nullable = false)
+    private LocalDate sessionDate;
+
+    @Column(nullable = false)
+    private String timeSlot;
+
+    @Column(nullable = false)
+    private String status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "upfront_payment_id")
+    @JoinColumn(name = "payment_id")
     private Payment upfrontPayment;
-
-    public enum SessionStatus {
-        UNSCHEDULED, SCHEDULED, COMPLETED, CANCELLED, NO_SHOW
-    }
-
-    public enum PaymentStatus {
-        PENDING, PAID
-    }
 }

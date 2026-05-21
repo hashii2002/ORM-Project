@@ -1,9 +1,6 @@
 package org.example.serenitytherapycenterorm.dao;
 
-import org.example.serenitytherapycenterorm.dao.custom.impl.PatientDAOImpl;
-import org.example.serenitytherapycenterorm.dao.custom.impl.ProgramDAOImpl;
-import org.example.serenitytherapycenterorm.dao.custom.impl.TherapistDAOImpl;
-import org.example.serenitytherapycenterorm.dao.custom.impl.UserDAOImpl;
+import org.example.serenitytherapycenterorm.dao.custom.impl.*;
 
 public class DAOFactory {
     private static DAOFactory daoFactory;
@@ -29,6 +26,8 @@ public class DAOFactory {
                 return new ProgramDAOImpl();
             case PATIENT:
                 return new PatientDAOImpl();
+            case SESSION:
+                return new TherapySessionDAOImpl();
             default:
                 return null;
         }

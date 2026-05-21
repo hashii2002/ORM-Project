@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #e1ede7;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.serenitytherapycenterorm.controller.TherapySessionController">
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #e1ede7;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.serenitytherapycenterorm.controller.TherapySessionController">
     <children>
         <VBox spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="20.0">
             <children>
@@ -133,8 +133,8 @@
 
                                 <HBox spacing="10.0">
                                     <children>
-                                        <Button fx:id="btnClear" mnemonicParsing="false" prefHeight="34.0" prefWidth="80.0" style="-fx-background-color: white; -fx-border-color: #2d5f4e; -fx-border-radius: 15; -fx-text-fill: #2d5f4e; -fx-font-weight: bold; -fx-cursor: hand;" text="Clear" />
-                                        <Button fx:id="btnSchedule" mnemonicParsing="false" prefHeight="34.0" prefWidth="79.0" style="-fx-background-color: #2d5f4e; -fx-background-radius: 15; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="SAVE" />
+                                        <Button fx:id="btnClear" mnemonicParsing="false" onAction="#handleClearForm" prefHeight="34.0" prefWidth="80.0" style="-fx-background-color: white; -fx-border-color: #2d5f4e; -fx-border-radius: 15; -fx-text-fill: #2d5f4e; -fx-font-weight: bold; -fx-cursor: hand;" text="Clear" />
+                                        <Button fx:id="btnSchedule" mnemonicParsing="false" onAction="#handleScheduleSession" prefHeight="34.0" prefWidth="79.0" style="-fx-background-color: #2d5f4e; -fx-background-radius: 15; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="SAVE" />
                                     </children>
                                 </HBox>
                             </children>
@@ -161,7 +161,7 @@
                                         </HBox>
                                         <ComboBox fx:id="cmbFilterProgramTable" prefHeight="36.0" prefWidth="160.0" promptText="All Programs" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
                                         <Region HBox.hgrow="ALWAYS" />
-                                        <Button fx:id="btnCancelSession" mnemonicParsing="false" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: #d45b55; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Cancel Session" />
+                                        <Button fx:id="btnCancelSession" mnemonicParsing="false" onAction="#handleCancelSessionClick" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: #d45b55; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Cancel Session" />
                                     </children>
                                 </HBox>
 
