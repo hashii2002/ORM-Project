@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" minHeight="800.0" prefHeight="800.0" style="-fx-background-color: transparent; -fx-background: #e1ede7;" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.serenitytherapycenterorm.controller.AddNewPatientController">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" minHeight="800.0" prefHeight="800.0" style="-fx-background-color: transparent; -fx-background: #e1ede7;" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.serenitytherapycenterorm.controller.AddNewPatientController">
     <content>
         <VBox spacing="20.0" style="-fx-padding: 25 30 25 30;">
             <children>

@@ -47,7 +47,7 @@ public class AdminDashboardController {
     }
 
     @FXML
-    void btnSessionOnAction(ActionEvent event) {loadUI("/view/TherapySessionSheduling.fxml");
+    void btnSessionOnAction(ActionEvent event) {loadUI("/view/TherapySessionScheduling.fxml");
     }
 
     @FXML
