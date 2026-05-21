@@ -153,6 +153,17 @@
                             <children>
                                 <VBox spacing="6.0" HBox.hgrow="ALWAYS">
                                     <children>
+                                        <Label text="PATIENT STATUS *" textFill="#2D5F4E">
+                                            <font>
+                                                <Font name="System Bold" size="11.0" />
+                                            </font>
+                                        </Label>
+                                        <ComboBox fx:id="cmbStatus" maxWidth="Infinity" prefHeight="38.0" promptText="Select Status" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
+                                    </children>
+                                </VBox>
+
+                                <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                    <children>
                                         <Label text="PAYMENT METHOD *" textFill="#2D5F4E">
                                             <font>
                                                 <Font name="System Bold" size="11.0" />

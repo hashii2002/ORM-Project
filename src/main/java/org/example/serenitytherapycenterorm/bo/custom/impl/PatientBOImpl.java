@@ -17,15 +17,12 @@ public class PatientBOImpl implements PatientBO {
 
     @Override
     public boolean savePatient(PatientDTO dto) throws Exception {
-        // Validation
+        // 1. Validation
         if (!ValidationUtil.isValidName(dto.getName())) {
-            throw new ValidationException("Invalid Patient Name! (3-100 characters, letters only)");
+            throw new ValidationException("Invalid Patient Name!");
         }
         if (!ValidationUtil.isValidPhone(dto.getPhone())) {
-            throw new ValidationException("Invalid Phone Number! (e.g., 0712345678)");
-        }
-        if (!ValidationUtil.isValidEmail(dto.getEmail())) {
-            throw new ValidationException("Invalid Email Format! (e.g., name@mail.com)");
+            throw new ValidationException("Invalid Phone Number!");
         }
 
         Patient patient = new Patient();
@@ -34,6 +31,31 @@ public class PatientBOImpl implements PatientBO {
         patient.setPhone(dto.getPhone());
         patient.setAddress(dto.getAddress());
         patient.setRegisteredDate(dto.getRegisteredDate());
+        patient.setDob(dto.getDob());
+        patient.setInterviewNote(dto.getInterviewNote());
+        patient.setStatus(dto.getStatus());
+
+        List<org.example.serenitytherapycenterorm.entity.TherapyProgram> programEntities = new ArrayList<>();
+
+        if (dto.getPrograms() != null) {
+
+            org.hibernate.Session session = org.example.serenitytherapycenterorm.config.FactoryConfiguration.getInstance().getSession();
+
+            try {
+                for (org.example.serenitytherapycenterorm.dto.TherapyProgramDTO pDTO : dto.getPrograms()) {
+                    org.example.serenitytherapycenterorm.entity.TherapyProgram existingProgram =
+                            session.get(org.example.serenitytherapycenterorm.entity.TherapyProgram.class, pDTO.getId());
+
+                    if (existingProgram != null) {
+                        programEntities.add(existingProgram);
+                    }
+                }
+            } finally {
+                session.close();
+            }
+        }
+
+        patient.setPrograms(programEntities);
 
         return patientDAO.save(patient);
     }
@@ -44,6 +66,19 @@ public class PatientBOImpl implements PatientBO {
         List<PatientDTO> allDTOs = new ArrayList<>();
 
         for (Patient p : allEntities) {
+
+            StringBuilder programsBuilder = new StringBuilder();
+            if (p.getPrograms() != null && !p.getPrograms().isEmpty()) {
+                for (org.example.serenitytherapycenterorm.entity.TherapyProgram program : p.getPrograms()) {
+                    if (programsBuilder.length() > 0) {
+                        programsBuilder.append(", ");
+                    }
+                    programsBuilder.append(program.getName());
+                }
+            } else {
+                programsBuilder.append("No Programs");
+            }
+
             allDTOs.add(new PatientDTO(
                     p.getId(),
                     p.getName(),
@@ -51,9 +86,10 @@ public class PatientBOImpl implements PatientBO {
                     p.getPhone(),
                     p.getAddress(),
                     p.getRegisteredDate(),
-                    "Programs Info",
-                    "No Notes",
-                    "Active"
+                    programsBuilder.toString(),
+                    p.getInterviewNote() != null ? p.getInterviewNote() : "No Notes",
+                    p.getStatus() != null ? p.getStatus() : "Active",
+                    p.getDob()
             ));
         }
         return allDTOs;

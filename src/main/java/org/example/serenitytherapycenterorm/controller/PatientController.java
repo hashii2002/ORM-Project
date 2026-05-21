@@ -28,9 +28,10 @@ public class PatientController {
     @FXML private TableColumn<PatientDTO, String> colName;
     @FXML private TableColumn<PatientDTO, String> colContact;
     @FXML private TableColumn<PatientDTO, String> colDOB;
-    @FXML private TableColumn<PatientDTO, String> colRegDate;
+    @FXML private TableColumn<PatientDTO, String> colAddress;
     @FXML private TableColumn<PatientDTO, String> colPrograms;
     @FXML private TableColumn<PatientDTO, String> colStatus;
+    @FXML private TableColumn<PatientDTO, String> colNote;
 
     private final PatientBO patientBO = new PatientBOImpl();
     private final ObservableList<PatientDTO> patientList = FXCollections.observableArrayList();
@@ -40,10 +41,11 @@ public class PatientController {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colContact.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        colDOB.setCellValueFactory(new PropertyValueFactory<>("email"));
-        colRegDate.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colDOB.setCellValueFactory(new PropertyValueFactory<>("dobString"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colPrograms.setCellValueFactory(new PropertyValueFactory<>("programsDisplay"));
-        colStatus.setCellValueFactory(new PropertyValueFactory<>("interviewNote"));
+        colNote.setCellValueFactory(new PropertyValueFactory<>("interviewNote"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         loadAllPatients();
     }

@@ -19,6 +19,7 @@ import org.example.serenitytherapycenterorm.exception.ValidationException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddNewPatientController {
@@ -28,6 +29,7 @@ public class AddNewPatientController {
     @FXML private TextField txtPatientPhone;
     @FXML private TextField txtPatientAddress;
     @FXML private TextArea txtInterviewNote;
+    @FXML private ComboBox<String> cmbStatus;
 
     // Therapy Program Enrollment
     @FXML private ComboBox<TherapyProgramDTO> cmbPatientProgram;
@@ -67,10 +69,13 @@ public class AddNewPatientController {
         // Setup Table Columns
         colProgramName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colTotalSessions.setCellValueFactory(new PropertyValueFactory<>("totalSessions"));
-        colSubtotal.setCellValueFactory(new PropertyValueFactory<>("fee")); // Fee එක තමයි Subtotal වෙන්නේ
+        colSubtotal.setCellValueFactory(new PropertyValueFactory<>("fee"));
 
         tblSelectedPgm.setItems(selectedProgramList);
         initTableActionColumn(); // Set Delete Button
+
+        cmbStatus.setItems(FXCollections.observableArrayList("Active", "Inactive", "Completed"));
+        cmbStatus.getSelectionModel().selectFirst();
 
         //Load Programs to ComboBox & Format display text
         loadAllProgramsToCombo();
@@ -199,8 +204,10 @@ public class AddNewPatientController {
             String name = txtPatientName.getText();
             String phone = txtPatientPhone.getText();
             String address = txtPatientAddress.getText();
+            String status = cmbStatus.getSelectionModel().getSelectedItem();
             String pMethod = cmbPaymentMethod.getSelectionModel().getSelectedItem();
             String upfrontStr = txtUpfrontPaid.getText();
+            LocalDate dob = txtDOB.getValue();
 
             // Validation
             if (name == null || name.trim().isEmpty() || phone == null || phone.trim().isEmpty()) {
@@ -221,23 +228,28 @@ public class AddNewPatientController {
             dto.setPhone(phone.trim());
             dto.setAddress(address.trim());
             dto.setRegisteredDate(LocalDate.now());
-            dto.setInterviewNote(txtInterviewNote.getText());
-            dto.setStatus("Active");
+            dto.setInterviewNote(txtInterviewNote.getText() != null ? txtInterviewNote.getText() : "");
+            dto.setDob(dob);
+            dto.setStatus(status != null ? status : "Active");
+            dto.setEmail("");
+
+            dto.setPrograms(new ArrayList<>(selectedProgramList));
 
             boolean isSaved = patientBO.savePatient(dto);
 
             if (isSaved) {
                 if (parentController != null) parentController.loadAllPatients();
-                new Alert(Alert.AlertType.INFORMATION, "Patient Registered & Enrolled Successfully!").showAndWait();
-
+                new Alert(Alert.AlertType.INFORMATION, "Patient Registered Successfully!").showAndWait();
                 ((Stage) txtPatientName.getScene().getWindow()).close();
+            } else {
+                lblRegMessage.setText("Failed to save patient in Database!");
             }
 
         } catch (ValidationException e) {
             lblRegMessage.setText(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            lblRegMessage.setText("Registration Failed!");
+            lblRegMessage.setText("Registration Error: " + e.getMessage());
         }
     }
 
@@ -253,8 +265,10 @@ public class AddNewPatientController {
 
         cmbPatientProgram.getSelectionModel().clearSelection();
         cmbPaymentMethod.getSelectionModel().clearSelection();
+        cmbStatus.getSelectionModel().select("Active");
         selectedProgramList.clear();
 
+        selectedProgramList.clear();
         calculateBill();
         lblRegMessage.setText("");
     }

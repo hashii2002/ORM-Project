@@ -8,7 +8,6 @@ import lombok.ToString;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,7 +21,6 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +41,16 @@ public class Patient {
     @Column(name = "registered_date")
     private LocalDate registeredDate = LocalDate.now();
 
-    @ManyToMany
+    @Column(name = "dob")
+    private LocalDate dob;
+
+    @Column(name = "interview_note", columnDefinition = "TEXT")
+    private String interviewNote;
+
+    @Column(length = 50)
+    private String status;
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "patient_program",
             joinColumns = @JoinColumn(name = "patient_id"),
