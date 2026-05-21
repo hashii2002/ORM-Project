@@ -1,17 +1,16 @@
 package org.example.serenitytherapycenterorm.dao.custom.impl;
 
 import org.example.serenitytherapycenterorm.config.FactoryConfiguration;
-import org.example.serenitytherapycenterorm.dao.custom.PatientDAO;
-import org.example.serenitytherapycenterorm.entity.Patient;
+import org.example.serenitytherapycenterorm.dao.custom.PaymentDAO;
+import org.example.serenitytherapycenterorm.entity.Payment;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import java.util.List;
 
-public class PatientDAOImpl implements PatientDAO {
+public class PaymentDAOImpl implements PaymentDAO {
 
     @Override
-    public boolean save(Patient entity) throws Exception {
+    public boolean save(Payment entity) throws Exception {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         try {
@@ -27,7 +26,7 @@ public class PatientDAOImpl implements PatientDAO {
     }
 
     @Override
-    public boolean update(Patient entity) throws Exception {
+    public boolean update(Payment entity) throws Exception {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         try {
@@ -47,9 +46,9 @@ public class PatientDAOImpl implements PatientDAO {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         try {
-            Patient patient = session.get(Patient.class, id);
-            if (patient != null) {
-                session.remove(patient);
+            Payment payment = session.get(Payment.class, id);
+            if (payment != null) {
+                session.remove(payment);
                 transaction.commit();
                 return true;
             }
@@ -63,43 +62,20 @@ public class PatientDAOImpl implements PatientDAO {
     }
 
     @Override
-    public Patient search(Long id) throws Exception {
+    public Payment search(Long id) throws Exception {
         Session session = FactoryConfiguration.getInstance().getSession();
         try {
-            return session.get(Patient.class, id);
+            return session.get(Payment.class, id);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public List<Patient> getAll() throws Exception {
+    public List<Payment> getAll() throws Exception {
         Session session = FactoryConfiguration.getInstance().getSession();
         try {
-            Query<Patient> query = session.createQuery("FROM Patient", Patient.class);
-            return query.list();
-        } finally {
-            session.close();
-        }
-    }
-
-    @Override
-    public List<Patient> getPatientsWithPrograms() throws Exception {
-        Session session = FactoryConfiguration.getInstance().getSession();
-        try {
-            String hql = "SELECT DISTINCT p FROM Patient p JOIN FETCH p.programs";
-            return session.createQuery(hql, Patient.class).list();
-        } finally {
-            session.close();
-        }
-    }
-
-    @Override
-    public List<Patient> getPatientsEnrolledInAllPrograms() throws Exception {
-        Session session = FactoryConfiguration.getInstance().getSession();
-        try {
-            String hql = "SELECT p FROM Patient p WHERE (SELECT COUNT(pr) FROM p.programs pr) = (SELECT COUNT(tp) FROM TherapyProgram tp)";
-            return session.createQuery(hql, Patient.class).list();
+            return session.createQuery("FROM Payment", Payment.class).list();
         } finally {
             session.close();
         }

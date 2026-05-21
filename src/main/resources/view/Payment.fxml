@@ -129,7 +129,7 @@
 
                                 <VBox spacing="4.0">
                                     <children>
-                                        <Label text="Amount Paid by Patient (LKR) *" textFill="#555555" />
+                                        <Label text="Amount Paid (LKR) *" textFill="#555555" />
                                         <TextField fx:id="txtAmountPaid" prefHeight="35.0" prefWidth="310.0" promptText="Enter Cash Received" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" />
                                     </children>
                                 </VBox>
@@ -167,8 +167,8 @@
 
                                 <HBox spacing="10.0">
                                     <children>
-                                        <Button fx:id="btnClear" mnemonicParsing="false" prefHeight="34.0" prefWidth="140.0" style="-fx-background-color: white; -fx-border-color: #2d5f4e; -fx-border-radius: 15; -fx-text-fill: #2d5f4e; -fx-font-weight: bold; -fx-cursor: hand;" text="Clear" />
-                                        <Button fx:id="btnPay" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #2d5f4e; -fx-background-radius: 15; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="PAY" />
+                                        <Button fx:id="btnClear" mnemonicParsing="false" onAction="#handleClearForm" prefHeight="34.0" prefWidth="140.0" style="-fx-background-color: white; -fx-border-color: #2d5f4e; -fx-border-radius: 15; -fx-text-fill: #2d5f4e; -fx-font-weight: bold; -fx-cursor: hand;" text="Clear" />
+                                        <Button fx:id="btnPay" mnemonicParsing="false" onAction="#handleProcessPayment" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #2d5f4e; -fx-background-radius: 15; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="PAY" />
                                     </children>
                                 </HBox>
                             </children>
