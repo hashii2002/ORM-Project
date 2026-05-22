@@ -80,4 +80,16 @@ public class PaymentDAOImpl implements PaymentDAO {
             session.close();
         }
     }
+
+    // Summary Card
+    @Override
+    public double getTotalRevenue() throws Exception {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        try {
+            Double total = session.createQuery("SELECT SUM(p.amountPaid) FROM Payment p", Double.class).getSingleResult();
+            return total != null ? total : 0.0;
+        } finally {
+            session.close();
+        }
+    }
 }

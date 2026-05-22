@@ -73,4 +73,15 @@ public class ProgramDAOImpl implements ProgramDAO {
         session.close();
         return list;
     }
+
+    // Summary Card
+    @Override
+    public long getProgramCount() throws Exception {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        try {
+            return session.createQuery("SELECT COUNT(p.id) FROM TherapyProgram p", Long.class).getSingleResult();
+        } finally {
+            session.close();
+        }
+    }
 }

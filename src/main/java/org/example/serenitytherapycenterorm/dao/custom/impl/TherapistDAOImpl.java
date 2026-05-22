@@ -84,4 +84,15 @@ public class TherapistDAOImpl implements TherapistDAO {
             session.close();
         }
     }
+
+    // Summary card
+    @Override
+    public long getTherapistCount() throws Exception {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        try {
+            return session.createQuery("SELECT COUNT(t.id) FROM Therapist t", Long.class).getSingleResult();
+        } finally {
+            session.close();
+        }
+    }
 }

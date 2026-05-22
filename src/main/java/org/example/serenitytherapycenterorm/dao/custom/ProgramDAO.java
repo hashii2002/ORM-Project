@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ProgramDAO extends CrudDAO<TherapyProgram, Long> {
     List<TherapyProgram> searchByName(String name) throws Exception;
+    long getProgramCount() throws Exception;
 }

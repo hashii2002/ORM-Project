@@ -4,5 +4,6 @@ import org.example.serenitytherapycenterorm.dao.CrudDAO;
 import org.example.serenitytherapycenterorm.entity.Payment;
 
 public interface PaymentDAO extends CrudDAO<Payment, Long> {
+    double getTotalRevenue() throws Exception;
 
 }

@@ -110,4 +110,15 @@ public class UserDAOImpl implements UserDAO {
             session.close();
         }
     }
+
+    // Summary Card
+    @Override
+    public long getUserCount() throws Exception {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        try {
+            return session.createQuery("SELECT COUNT(u.id) FROM User u", Long.class).getSingleResult();
+        } finally {
+            session.close();
+        }
+    }
 }
