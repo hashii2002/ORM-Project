@@ -31,8 +31,6 @@ public class PaymentController {
     @FXML private Label lblBalanceChange;
     @FXML private DatePicker dtpPaymentDate;
     @FXML private ComboBox<String> cmbPaymentMethod;
-
-    // 💡 අලුත් Status Combo Box එක
     @FXML private ComboBox<String> cmbStatus;
 
     @FXML private TextField txtSearchPayment;

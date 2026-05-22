@@ -15,7 +15,6 @@ import java.io.IOException;
 public class AdminDashboardController {
 
     @FXML private AnchorPane ancContent;
-    @FXML private Label lblAdminName;
 
     @FXML
     public void initialize() {
