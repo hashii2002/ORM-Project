@@ -8,4 +8,5 @@ public interface PaymentBO extends SuperBO {
     boolean savePayment(PaymentDTO dto) throws Exception;
     boolean deletePayment(Long id) throws Exception;
     List<PaymentDTO> getAllPayments() throws Exception;
+    boolean updatePayment(PaymentDTO dto) throws Exception;
 }

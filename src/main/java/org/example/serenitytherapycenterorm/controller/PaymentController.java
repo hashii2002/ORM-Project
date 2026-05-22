@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import org.example.serenitytherapycenterorm.bo.BOFactory;
 import org.example.serenitytherapycenterorm.bo.custom.PatientBO;
 import org.example.serenitytherapycenterorm.bo.custom.PaymentBO;
@@ -31,6 +32,9 @@ public class PaymentController {
     @FXML private DatePicker dtpPaymentDate;
     @FXML private ComboBox<String> cmbPaymentMethod;
 
+    // 💡 අලුත් Status Combo Box එක
+    @FXML private ComboBox<String> cmbStatus;
+
     @FXML private TextField txtSearchPayment;
     @FXML private ComboBox<String> cmbFilterMethodTable;
     @FXML private Button btnDeletePayment;
@@ -38,9 +42,11 @@ public class PaymentController {
     @FXML private TableView<PaymentDTO> tblPayments;
     @FXML private TableColumn<PaymentDTO, Long> colPaymentId;
     @FXML private TableColumn<PaymentDTO, String> colPatientName;
+    @FXML private TableColumn<PaymentDTO, Double> colTotalFee;
     @FXML private TableColumn<PaymentDTO, Double> colAmount;
     @FXML private TableColumn<PaymentDTO, LocalDate> colDate;
     @FXML private TableColumn<PaymentDTO, String> colMethod;
+    @FXML private TableColumn<PaymentDTO, String> colStatus;
 
     private final PaymentBO paymentBO = (PaymentBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.PAYMENT);
     private final PatientBO patientBO = (PatientBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.PATIENT);
@@ -48,21 +54,30 @@ public class PaymentController {
     private final ObservableList<PaymentDTO> paymentList = FXCollections.observableArrayList();
     private FilteredList<PaymentDTO> filteredData;
 
+    private Long selectedPaymentIdForUpdate = null;
+
     @FXML
     public void initialize() {
+        // ComboBox data filling
         cmbPaymentMethod.getItems().addAll("Cash", "Card", "Bank Transfer");
         cmbFilterMethodTable.getItems().addAll("All Methods", "Cash", "Card", "Bank Transfer");
-        cmbFilterMethodTable.getSelectionModel().selectFirst(); // Default "All Methods"
+        cmbFilterMethodTable.getSelectionModel().selectFirst();
+        cmbStatus.getItems().addAll("Completed", "Pending");
 
+        // Table Columns Setup
         colPaymentId.setCellValueFactory(new PropertyValueFactory<>("paymentId"));
         colPatientName.setCellValueFactory(new PropertyValueFactory<>("patientName"));
+        colTotalFee.setCellValueFactory(new PropertyValueFactory<>("totalFee"));
         colAmount.setCellValueFactory(new PropertyValueFactory<>("upfrontAmount"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("paymentDate"));
         colMethod.setCellValueFactory(new PropertyValueFactory<>("paymentMethod"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
+        // Connect FilteredList to table
         filteredData = new FilteredList<>(paymentList, p -> true);
         tblPayments.setItems(filteredData);
 
+        // Real-time Auto-Calculation Listeners
         txtTotalFee.textProperty().addListener((obs, oldVal, newVal) -> calculateBalances());
         txtUpfrontAmount.textProperty().addListener((obs, oldVal, newVal) -> calculateBalances());
         txtAmountPaid.textProperty().addListener((obs, oldVal, newVal) -> calculateBalances());
@@ -71,48 +86,150 @@ public class PaymentController {
             filterTableByMethod(newValue);
         });
 
-        // Searchbar logic
+        // Search Bar Enter Key Listener
         txtSearchPayment.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 searchAndSelectPaymentRow();
             }
         });
 
+        // Delete Button Event
         btnDeletePayment.setOnAction(this::handleDeletePayment);
+
+        // Table Row Double-Click Listener
+        tblPayments.setRowFactory(tv -> {
+            TableRow<PaymentDTO> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+                    PaymentDTO clickedRowData = row.getItem();
+                    loadRowDataToForm(clickedRowData);
+                }
+            });
+            return row;
+        });
 
         loadAllPayments();
         loadAllPatientsToComboBox();
     }
 
+    private void loadRowDataToForm(PaymentDTO dto) {
+        selectedPaymentIdForUpdate = dto.getPaymentId();
+
+        for (String item : cmbPatient.getItems()) {
+            if (item.startsWith(dto.getPatientId() + " - ")) {
+                cmbPatient.setValue(item);
+                break;
+            }
+        }
+
+        txtTotalFee.setText(String.valueOf(dto.getTotalFee()));
+        txtUpfrontAmount.setText(String.valueOf(dto.getUpfrontAmount()));
+        txtAmountPaid.setText(String.valueOf(dto.getAmountPaid()));
+        dtpPaymentDate.setValue(dto.getPaymentDate());
+        cmbPaymentMethod.setValue(dto.getPaymentMethod());
+        cmbStatus.setValue(dto.getStatus());
+
+    }
+
+    @FXML
+    void handleProcessPayment(ActionEvent event) {
+        try {
+            validateInputs();
+
+            PaymentDTO dto = new PaymentDTO();
+            String selectedPatientString = cmbPatient.getValue();
+
+            if (selectedPatientString != null && selectedPatientString.contains(" - ")) {
+                String[] parts = selectedPatientString.split(" - ");
+                Long patientId = Long.parseLong(parts[0].trim());
+                dto.setPatientId(patientId);
+            } else {
+                throw new ValidationException("Please select a valid patient from the list!");
+            }
+
+            dto.setTotalFee(Double.parseDouble(txtTotalFee.getText().trim()));
+            dto.setUpfrontAmount(Double.parseDouble(txtUpfrontAmount.getText().trim()));
+            dto.setAmountPaid(Double.parseDouble(txtAmountPaid.getText().trim()));
+            dto.setPaymentDate(dtpPaymentDate.getValue());
+            dto.setPaymentMethod(cmbPaymentMethod.getValue());
+            dto.setStatus(cmbStatus.getValue());
+
+            if (selectedPaymentIdForUpdate == null) {
+
+                if (paymentBO.savePayment(dto)) {
+                    new Alert(Alert.AlertType.INFORMATION, "Payment Processed successfully!").show();
+                    loadAllPayments();
+                    handleClearForm(null);
+                }
+            } else {
+
+                dto.setPaymentId(selectedPaymentIdForUpdate);
+                if (paymentBO.updatePayment(dto)) {
+                    new Alert(Alert.AlertType.INFORMATION, "Payment Updated successfully!").show();
+                    loadAllPayments();
+                    handleClearForm(null);
+                }
+            }
+
+        } catch (ValidationException e) {
+            new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Error: " + e.getMessage()).show();
+        }
+    }
+
+    private void validateInputs() throws ValidationException {
+        if (cmbPatient.getValue() == null) throw new ValidationException("Please select a registered patient!");
+        String decimalRegex = "^[0-9]+(\\.[0-9]{1,2})?$";
+        if (!txtTotalFee.getText().trim().matches(decimalRegex)) throw new ValidationException("Invalid Total Program Fee!");
+        if (!txtUpfrontAmount.getText().trim().matches(decimalRegex)) throw new ValidationException("Invalid Upfront Amount!");
+        if (!txtAmountPaid.getText().trim().matches(decimalRegex)) throw new ValidationException("Invalid Amount Paid!");
+
+        double upfront = Double.parseDouble(txtUpfrontAmount.getText().trim());
+        double paid = Double.parseDouble(txtAmountPaid.getText().trim());
+        if (paid < upfront) throw new ValidationException("The cash received is less than upfront amount!");
+        if (dtpPaymentDate.getValue() == null) throw new ValidationException("Please select the payment date!");
+        if (cmbPaymentMethod.getValue() == null) throw new ValidationException("Please select a payment method!");
+        if (cmbStatus.getValue() == null) throw new ValidationException("Please select the Payment Status (Completed/Pending)!");
+    }
+
+    @FXML
+    void handleClearForm(ActionEvent event) {
+        cmbPatient.getSelectionModel().clearSelection();
+        txtTotalFee.clear();
+        txtUpfrontAmount.clear();
+        txtAmountPaid.clear();
+        lblDueBalance.setText("0.00");
+        lblBalanceChange.setText("0.00");
+        dtpPaymentDate.setValue(null);
+        cmbPaymentMethod.getSelectionModel().clearSelection();
+        cmbStatus.getSelectionModel().clearSelection();
+        selectedPaymentIdForUpdate = null;
+    }
+
     private void searchAndSelectPaymentRow() {
         String searchText = txtSearchPayment.getText().trim();
         if (searchText.isEmpty()) {
-            new Alert(Alert.AlertType.WARNING, "Please enter a Payment ID to search!").show();
+            new Alert(Alert.AlertType.WARNING, "Please enter a Payment ID or Patient Name to search!").show();
             return;
         }
 
         boolean found = false;
         for (PaymentDTO payment : paymentList) {
-
             if (String.valueOf(payment.getPaymentId()).equals(searchText) ||
                     payment.getPatientName().equalsIgnoreCase(searchText)) {
-
                 tblPayments.getSelectionModel().select(payment);
                 tblPayments.scrollTo(payment);
                 found = true;
                 break;
             }
         }
-
-        if (!found) {
-            new Alert(Alert.AlertType.INFORMATION, "No payment found with ID/Name: " + searchText).show();
-        }
+        if (!found) new Alert(Alert.AlertType.INFORMATION, "No payment found with ID/Name: " + searchText).show();
     }
 
     @FXML
     void handleDeletePayment(ActionEvent event) {
         PaymentDTO selectedPayment = tblPayments.getSelectionModel().getSelectedItem();
-
         if (selectedPayment == null) {
             new Alert(Alert.AlertType.WARNING, "Please select a payment bill from the table to delete!").show();
             return;
@@ -126,30 +243,21 @@ public class PaymentController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-
-                boolean isDeleted = paymentBO.deletePayment(selectedPayment.getPaymentId());
-                if (isDeleted) {
+                if (paymentBO.deletePayment(selectedPayment.getPaymentId())) {
                     new Alert(Alert.AlertType.INFORMATION, "Payment bill deleted successfully!").show();
                     loadAllPayments();
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "Failed to delete the payment bill!").show();
                 }
             } catch (Exception e) {
                 new Alert(Alert.AlertType.ERROR, "Error occurred while deleting: " + e.getMessage()).show();
-                e.printStackTrace();
             }
         }
     }
 
     private void filterTableByMethod(String method) {
         filteredData.setPredicate(payment -> {
-            if (method == null || method.equals("All Methods")) {
-                return true;
-            }
-
+            if (method == null || method.equals("All Methods")) return true;
             return payment.getPaymentMethod().equalsIgnoreCase(method);
         });
-
         updateRevenueLabels(filteredData);
     }
 
@@ -158,7 +266,6 @@ public class PaymentController {
             paymentList.clear();
             List<PaymentDTO> allPayments = paymentBO.getAllPayments();
             paymentList.addAll(allPayments);
-
             updateRevenueLabels(paymentList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -183,68 +290,7 @@ public class PaymentController {
 
             double change = amountPaid - upfrontAmount;
             lblBalanceChange.setText(String.format("%.2f", change > 0 ? change : 0.00));
-        } catch (NumberFormatException e) {
-        }
-    }
-
-    @FXML
-    void handleProcessPayment(ActionEvent event) {
-        try {
-            validateInputs();
-
-            PaymentDTO dto = new PaymentDTO();
-            String selectedPatientString = cmbPatient.getValue();
-
-            if (selectedPatientString != null && selectedPatientString.contains(" - ")) {
-                String[] parts = selectedPatientString.split(" - ");
-                Long patientId = Long.parseLong(parts[0].trim());
-                dto.setPatientId(patientId);
-            } else {
-                throw new ValidationException("Please select a valid patient from the list!");
-            }
-
-            dto.setTotalFee(Double.parseDouble(txtTotalFee.getText().trim()));
-            dto.setUpfrontAmount(Double.parseDouble(txtUpfrontAmount.getText().trim()));
-            dto.setAmountPaid(Double.parseDouble(txtAmountPaid.getText().trim()));
-            dto.setPaymentDate(dtpPaymentDate.getValue());
-            dto.setPaymentMethod(cmbPaymentMethod.getValue());
-
-            if (paymentBO.savePayment(dto)) {
-                new Alert(Alert.AlertType.INFORMATION, "Payment Processed successfully!").show();
-                loadAllPayments();
-                handleClearForm(null);
-            }
-        } catch (ValidationException e) {
-            new Alert(Alert.AlertType.WARNING, e.getMessage()).show();
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Error: " + e.getMessage()).show();
-        }
-    }
-
-    private void validateInputs() throws ValidationException {
-        if (cmbPatient.getValue() == null) throw new ValidationException("Please select a registered patient!");
-        String decimalRegex = "^[0-9]+(\\.[0-9]{1,2})?$";
-        if (!txtTotalFee.getText().trim().matches(decimalRegex)) throw new ValidationException("Invalid Total Program Fee!");
-        if (!txtUpfrontAmount.getText().trim().matches(decimalRegex)) throw new ValidationException("Invalid Upfront Amount!");
-        if (!txtAmountPaid.getText().trim().matches(decimalRegex)) throw new ValidationException("Invalid Amount Paid!");
-
-        double upfront = Double.parseDouble(txtUpfrontAmount.getText().trim());
-        double paid = Double.parseDouble(txtAmountPaid.getText().trim());
-        if (paid < upfront) throw new ValidationException("The cash received is less than upfront amount!");
-        if (dtpPaymentDate.getValue() == null) throw new ValidationException("Please select the payment date!");
-        if (cmbPaymentMethod.getValue() == null) throw new ValidationException("Please select a payment method!");
-    }
-
-    @FXML
-    void handleClearForm(ActionEvent event) {
-        cmbPatient.getSelectionModel().clearSelection();
-        txtTotalFee.clear();
-        txtUpfrontAmount.clear();
-        txtAmountPaid.clear();
-        lblDueBalance.setText("0.00");
-        lblBalanceChange.setText("0.00");
-        dtpPaymentDate.setValue(null);
-        cmbPaymentMethod.getSelectionModel().clearSelection();
+        } catch (NumberFormatException e) { }
     }
 
     private void loadAllPatientsToComboBox() {
@@ -255,8 +301,6 @@ public class PaymentController {
                 patientOptions.add(patient.getId() + " - " + patient.getName());
             }
             cmbPatient.setItems(patientOptions);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) { }
     }
 }

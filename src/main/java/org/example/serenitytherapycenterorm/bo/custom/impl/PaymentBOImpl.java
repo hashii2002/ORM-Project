@@ -52,9 +52,30 @@ public class PaymentBOImpl implements PaymentBO {
                     p.getUpfrontAmount(),
                     p.getAmountPaid(),
                     p.getPaymentDate(),
-                    p.getPaymentMethod()
+                    p.getPaymentMethod(),
+                    p.getStatus()
             ));
         }
         return allDTOs;
+    }
+
+    @Override
+    public boolean updatePayment(PaymentDTO dto) throws Exception {
+        Payment payment = paymentDAO.search(dto.getPaymentId());
+        if (payment == null) {
+            throw new IllegalArgumentException("Payment record not found!");
+        }
+
+        Patient patient = patientDAO.search(dto.getPatientId());
+        payment.setPatient(patient);
+
+        payment.setTotalFee(dto.getTotalFee());
+        payment.setUpfrontAmount(dto.getUpfrontAmount());
+        payment.setAmountPaid(dto.getAmountPaid());
+        payment.setPaymentDate(dto.getPaymentDate());
+        payment.setPaymentMethod(dto.getPaymentMethod());
+        payment.setStatus(dto.getStatus());
+
+        return paymentDAO.update(payment);
     }
 }

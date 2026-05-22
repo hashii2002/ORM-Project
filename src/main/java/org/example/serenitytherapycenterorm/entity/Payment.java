@@ -34,4 +34,7 @@ public class Payment {
 
     @Column(name = "payment_method", nullable = false, length = 50)
     private String paymentMethod;
+
+    @Column(name = "status", length = 20)
+    private String status;
 }
