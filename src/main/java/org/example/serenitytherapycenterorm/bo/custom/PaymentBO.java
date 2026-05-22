@@ -9,4 +9,5 @@ public interface PaymentBO extends SuperBO {
     boolean deletePayment(Long id) throws Exception;
     List<PaymentDTO> getAllPayments() throws Exception;
     boolean updatePayment(PaymentDTO dto) throws Exception;
+    java.math.BigDecimal getTotalRevenue() throws Exception;
 }

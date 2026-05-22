@@ -35,7 +35,6 @@ public class LoginController {
             txtPasswordVisible.setVisible(true);
             txtPassword.setVisible(false);
         } else {
-
             txtPassword.setText(txtPasswordVisible.getText());
             txtPassword.setVisible(true);
             txtPasswordVisible.setVisible(false);
@@ -55,8 +54,9 @@ public class LoginController {
 
         try {
             UserDTO authenticatedUser = userBO.authenticate(username, password);
+
             if (authenticatedUser != null) {
-                navigateToDashboard();
+                navigateToDashboard(authenticatedUser);
             }
         } catch (org.example.serenitytherapycenterorm.exception.AuthenticationException e) {
             showAlert(Alert.AlertType.ERROR, "Login Failed", e.getMessage());
@@ -66,15 +66,30 @@ public class LoginController {
         }
     }
 
-    private void navigateToDashboard() throws IOException {
-
+    // Dashboard Select for Role
+    private void navigateToDashboard(UserDTO user) throws IOException {
         Stage currentStage = (Stage) txtUsername.getScene().getWindow();
         currentStage.close();
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/AdminDashboard.fxml"));
+        String fxmlPath = "";
+        String windowTitle = "";
+
+        if (user.getRole() == User.Role.ADMIN) {
+            fxmlPath = "/view/AdminDashboard.fxml";
+            windowTitle = "Serenity Therapy Center - Admin Dashboard";
+        } else if (user.getRole() == User.Role.RECEPTIONIST) {
+            fxmlPath = "/view/ReceptionistDashboard.fxml";
+            windowTitle = "Serenity Therapy Center - Receptionist Dashboard";
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Access Denied", "Your account role is not recognized!");
+            return;
+        }
+
+        Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
         Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Serenity Therapy Center - Dashboard");
+        stage.setScene(new Scene(root, 1280, 800)); // Dashboard එක නිවැරදි ප්‍රමාණයෙන් විවෘත කිරීමට
+        stage.setTitle(windowTitle);
+        stage.centerOnScreen();
         stage.show();
     }
 
@@ -90,11 +105,8 @@ public class LoginController {
     void btnCreateAccount(ActionEvent event) {
         try {
             Parent registerRoot = FXMLLoader.load(getClass().getResource("/view/Register.fxml"));
-
             rootPane.getChildren().clear();
-
             rootPane.getChildren().add(registerRoot);
-
         } catch (IOException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Loading Error", "Cannot load Register UI. Please check the FXML path.");

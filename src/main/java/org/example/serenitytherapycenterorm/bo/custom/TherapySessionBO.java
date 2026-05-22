@@ -8,4 +8,6 @@ public interface TherapySessionBO extends SuperBO {
     boolean scheduleSession(TherapySessionDTO dto) throws Exception;
     boolean cancelSession(Long sessionId) throws Exception;
     List<TherapySessionDTO> getAllSessions() throws Exception;
+    long getTotalSessionCount() throws Exception;
+    long getConfirmedAppointmentCount() throws Exception;
 }

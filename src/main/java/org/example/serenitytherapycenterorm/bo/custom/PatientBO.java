@@ -7,4 +7,5 @@ import java.util.List;
 public interface PatientBO extends SuperBO {
     boolean savePatient(PatientDTO dto) throws Exception;
     List<PatientDTO> getAllPatients() throws Exception;
+    long getPatientCount() throws Exception;
 }

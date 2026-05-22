@@ -91,4 +91,22 @@ public class TherapySessionBOImpl implements TherapySessionBO {
         }
         return dtoList;
     }
+
+    // Summary Card Logic
+
+    @Override
+    public long getTotalSessionCount() throws Exception {
+        try (org.hibernate.Session session = org.example.serenitytherapycenterorm.config.FactoryConfiguration.getInstance().getSession()) {
+            return (long) session.createQuery("SELECT COUNT(s.sessionId) FROM TherapySession s").uniqueResult();
+        }
+    }
+
+    @Override
+    public long getConfirmedAppointmentCount() throws Exception {
+        try (org.hibernate.Session session = org.example.serenitytherapycenterorm.config.FactoryConfiguration.getInstance().getSession()) {
+            return (long) session.createQuery("SELECT COUNT(s.sessionId) FROM TherapySession s WHERE s.status = :status")
+                    .setParameter("status", "Confirmed")
+                    .uniqueResult();
+        }
+    }
 }

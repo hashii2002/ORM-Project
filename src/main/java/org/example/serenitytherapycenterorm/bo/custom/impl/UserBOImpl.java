@@ -17,7 +17,7 @@ public class UserBOImpl implements UserBO {
 
     @Override
     public boolean saveUser(UserDTO dto) throws Exception {
-        String defaultPassword = "Serenity@123";
+        String defaultPassword = "123456";
 
         String hashedPassword = PasswordUtil.hashPassword(defaultPassword);
 
@@ -89,8 +89,12 @@ public class UserBOImpl implements UserBO {
     public UserDTO authenticate(String username, String plainPassword) throws Exception {
         User user = userDAO.findByUsername(username);
 
-        if (user == null || User.Status.INACTIVE.equals(user.getStatus())) {
-            throw new AuthenticationException("Invalid username or disabled account");
+        if (user == null || !user.getUsername().equals(username)) {
+            throw new AuthenticationException("Invalid username! Please check capital/simple letters.");
+        }
+
+        if (User.Status.INACTIVE.equals(user.getStatus())) {
+            throw new AuthenticationException("Your account has been disabled!");
         }
 
         if (!PasswordUtil.checkPassword(plainPassword, user.getPassword())) {

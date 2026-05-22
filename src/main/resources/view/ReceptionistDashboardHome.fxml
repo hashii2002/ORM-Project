@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="720.0" prefWidth="950.0" style="-fx-background-color: #e1ede7;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.serenitytherapycenterorm.controller.ReceptionistDashboardHomeController">
+    <children>
+        <VBox spacing="30.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="40.0">
+            <children>
+
+                <VBox spacing="6.0">
+                    <children>
+                        <Label text="Welcome Back, Receptionist" textFill="#2d5f4e">
+                            <font>
+                                <Font name="System Bold" size="28.0" />
+                            </font>
+                        </Label>
+                        <Label text="Here's a quick overview of today's patient activities and sessions." textFill="#5d6e65">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+
+                <HBox prefHeight="160.0" spacing="40.0" VBox.vgrow="NEVER">
+                    <children>
+                        <VBox prefHeight="160.0" style="-fx-background-color: white; -fx-background-radius: 18; -fx-padding: 18; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 15, 0, 0, 5);" HBox.hgrow="ALWAYS">
+                            <children>
+                                <HBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label text="Total Registered Patients" textFill="#757575">
+                                            <font>
+                                                <Font name="System Bold" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <ImageView fitHeight="60.0" fitWidth="60.0" opacity="0.8" pickOnBounds="true" smooth="true">
+                                            <image>
+                                                <Image url="@../icon/patienticon.png" />
+                                            </image>
+                                        </ImageView>
+                                    </children>
+                                </HBox>
+                                <Region VBox.vgrow="ALWAYS" />
+                                <Label fx:id="lblTotalPatients" text="0" textFill="#2d5f4e">
+                                    <font>
+                                        <Font name="System Bold" size="34.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+
+                        <VBox prefHeight="160.0" style="-fx-background-color: white; -fx-background-radius: 18; -fx-padding: 18; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 15, 0, 0, 5);" HBox.hgrow="ALWAYS">
+                            <children>
+                                <HBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label text="Confirmed Appointments" textFill="#757575">
+                                            <font>
+                                                <Font name="System Bold" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <ImageView fitHeight="60.0" fitWidth="60.0" opacity="0.8" pickOnBounds="true" smooth="true">
+                                            <image>
+                                                <Image url="@../icon/confirmed.png" />
+                                            </image>
+                                        </ImageView>
+                                    </children>
+                                </HBox>
+                                <Region VBox.vgrow="ALWAYS" />
+                                <Label fx:id="lblConfirmedAppointments" text="0" textFill="#2d5f4e">
+                                    <font>
+                                        <Font name="System Bold" size="34.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <Region prefHeight="10.0" VBox.vgrow="NEVER" />
+
+                <HBox prefHeight="160.0" spacing="40.0" VBox.vgrow="NEVER">
+                    <children>
+                        <VBox prefHeight="160.0" style="-fx-background-color: white; -fx-background-radius: 18; -fx-padding: 18; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 15, 0, 0, 5);" HBox.hgrow="ALWAYS">
+                            <children>
+                                <HBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label text="Total Scheduled Sessions" textFill="#757575">
+                                            <font>
+                                                <Font name="System Bold" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <ImageView fitHeight="60.0" fitWidth="73.0" opacity="0.8" pickOnBounds="true" smooth="true">
+                                            <image>
+                                                <Image url="@../image/program.png" />
+                                            </image>
+                                        </ImageView>
+                                    </children>
+                                </HBox>
+                                <Region VBox.vgrow="ALWAYS" />
+                                <Label fx:id="lblTotalSessions" text="0" textFill="#2d5f4e">
+                                    <font>
+                                        <Font name="System Bold" size="34.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+
+                        <VBox prefHeight="160.0" style="-fx-background-color: white; -fx-background-radius: 18; -fx-padding: 18; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 15, 0, 0, 5);" HBox.hgrow="ALWAYS">
+                            <children>
+                                <HBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label text="Total Revenue (LKR)" textFill="#757575">
+                                            <font>
+                                                <Font name="System Bold" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <ImageView fitHeight="64.0" fitWidth="69.0" pickOnBounds="true" smooth="true">
+                                            <image>
+                                                <Image url="@../image/payment.png" />
+                                            </image>
+                                        </ImageView>
+                                    </children>
+                                </HBox>
+                                <Region VBox.vgrow="ALWAYS" />
+                                <Label fx:id="lblTotalRevenue" text="0.00" textFill="#4caf50">
+                                    <font>
+                                        <Font name="System Bold" size="30.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

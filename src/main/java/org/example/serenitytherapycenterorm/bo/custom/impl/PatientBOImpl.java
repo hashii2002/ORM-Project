@@ -94,4 +94,12 @@ public class PatientBOImpl implements PatientBO {
         }
         return allDTOs;
     }
+
+    // Summary Card
+    @Override
+    public long getPatientCount() throws Exception {
+        try (org.hibernate.Session session = org.example.serenitytherapycenterorm.config.FactoryConfiguration.getInstance().getSession()) {
+            return (long) session.createQuery("SELECT COUNT(p.id) FROM Patient p").uniqueResult();
+        }
+    }
 }

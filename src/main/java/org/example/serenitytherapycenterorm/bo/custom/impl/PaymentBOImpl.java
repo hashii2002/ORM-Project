@@ -78,4 +78,24 @@ public class PaymentBOImpl implements PaymentBO {
 
         return paymentDAO.update(payment);
     }
+
+    // Summary Card
+    @Override
+    public java.math.BigDecimal getTotalRevenue() throws Exception {
+        try (org.hibernate.Session session = org.example.serenitytherapycenterorm.config.FactoryConfiguration.getInstance().getSession()) {
+
+            Object result = session.createQuery("SELECT SUM(p.amountPaid) FROM Payment p").uniqueResult();
+
+            if (result != null) {
+                if (result instanceof Double) {
+                    return java.math.BigDecimal.valueOf((Double) result);
+                }
+                else if (result instanceof java.math.BigDecimal) {
+                    return (java.math.BigDecimal) result;
+                }
+            }
+            return java.math.BigDecimal.ZERO;
+        }
+    }
+
 }
