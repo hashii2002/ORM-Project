@@ -39,6 +39,25 @@ The Serenity Therapy Center Management System is designed to streamline the admi
 * User account administration
 * Password validation and security utilities
 
+<p align="center">
+  <img src="src/main/resources/ss/loginPage.png" width="45%">
+  <img src="src/main/resources/ss/dashboard.png" width="45%">
+</p>
+
+<p align="center">
+  <img src="src/main/resources/ss/patientPage.png" width="45%">
+  <img src="src/main/resources/ss/paymentPage.png" width="45%">
+</p>
+
+<p align="center">
+  <img src="src/main/resources/ss/therapistPage.png" width="45%">
+  <img src="src/main/resources/ss/therapySessionPage.png" width="45%">
+</p>
+
+<p align="center">
+  <img src="src/main/resources/ss/userPage.png" width="45%">
+</p>
+
 ## 🏗️ Technologies Used
 
 | Technology      | Purpose                   |
